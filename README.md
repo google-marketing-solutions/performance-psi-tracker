@@ -35,7 +35,8 @@ The code files need to be copied into an AppScript project attached to a Google
 Sheet.
 
 Example Dashboard:
-2https://datastudio.google.com/c/u/0/reporting/4fda7297-8fa3-461a-965f-71767beb17ae/page/VgD/preview
+https://datastudio.google.com/c/u/0/reporting/4fda7297-8fa3-461a-965f-71767beb17ae/page/VgD/preview
+
 Example Spreadsheet:
 https://docs.google.com/spreadsheets/d/1jHtFEYXbUzUyRkmkXI7THk8ZQHUwAd9tn4E0QL8gF7w/copy
 
