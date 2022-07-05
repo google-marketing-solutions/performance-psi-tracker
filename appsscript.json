@@ -1,0 +1,28 @@
+{
+  "timeZone": "Europe/London",
+  "dependencies": {
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "sheets": {
+    "macros": [{
+      "menuName": "Creating table",
+      "functionName": "Creatingtable"
+    }, {
+      "menuName": "Testing",
+      "functionName": "Testing"
+    }, {
+      "menuName": "Untitled macro",
+      "functionName": "Untitledmacro"
+    }, {
+      "menuName": "runPerfTracker",
+      "functionName": "runPerfTracker"
+    }, {
+      "menuName": "onOpen",
+      "functionName": "onOpen"
+    }, {
+      "menuName": "getKey",
+      "functionName": "getKey"
+    }]
+  }
+}
