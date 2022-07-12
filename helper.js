@@ -43,7 +43,7 @@ function onOpen() {
       functionName: 'setDailyTrigger',
     },
   ];
-  SpreadsheetApp.getActive().addMenu('PerfTracker', menuEntries);
+  SpreadsheetApp.getActive().addMenu('PSI Tracker', menuEntries);
 }
 
 /**
@@ -165,6 +165,7 @@ function runBatchFromQueue() {
       }
     }
   }
+  alertUsers();
 }
 
 /**
@@ -275,7 +276,7 @@ function submitTests(settings) {
  *
  * The format of the response from PSI is documented here:
  * https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#response
- *
+ * 
  * @param {!PsiResult} content The
  *     lighthouseResult object returned from PSI to parse.
  * @param { !Map<string, !Map<string, number>> } budgets The performance budgets
@@ -295,7 +296,7 @@ function parseResults(content, budgets) {
   const categories = [];
   budgets.get('categories').forEach((budget, category) => {
     const score = lighthouseResult['categories'][category]['score'] * 100;
-    categories.push(score, budget, budget - score);
+    categories.push(score, budget, score - budget);
   });
   const audits = [];
   budgets.get('audits').forEach((budget, audit) => {
