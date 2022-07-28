@@ -34,11 +34,18 @@ the results.
 The code files need to be copied into an AppScript project attached to a Google
 Sheet.
 
+You will also need a Pagespeed Insights API key to use the solution. You can get one on the [Pagespeed Insights documentation site](https://developers.google.com/speed/docs/insights/v5/get-started).
+
+## Examples 
 Example Dashboard:
-https://datastudio.google.com/c/u/0/reporting/4fda7297-8fa3-461a-965f-71767beb17ae/page/VgD/preview
+https://datastudio.google.com/reporting/3491d840-6456-41a2-a912-ba35c6b44a53/preview
 
 Example Spreadsheet:
-https://docs.google.com/spreadsheets/d/1jHtFEYXbUzUyRkmkXI7THk8ZQHUwAd9tn4E0QL8gF7w/copy
+https://docs.google.com/spreadsheets/d/1i_5fiSpbkU3CG9h4MwGzSxchh3Ji6s8Mj0uDQykRoWM/copy
+
+Presentation on how to set everything up:
+https://docs.google.com/presentation/d/1RMd1q1qyW02Ac0DcSk4VvVfiW6OY3O6a3U8_ESUgSio/edit?usp=sharing
+
 
 ## Main Functions (for testing):
 
