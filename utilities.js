@@ -61,3 +61,16 @@ function letterToColumnIndex(letter) {
   }
   return column;
 }
+
+
+/**
+ * Gets reference to sheet by name, creating it if needed
+ */
+function getSheet(name) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name)
+  if (sheet == null) {
+    sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet()
+    sheet.setName(name)
+  }
+  return sheet;
+}
