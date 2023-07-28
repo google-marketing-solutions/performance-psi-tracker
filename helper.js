@@ -212,6 +212,7 @@ function createBudget(urlSettings) {
   crux.set('LARGEST_CONTENTFUL_PAINT_MS', urlSettings[25]);    // Z
   crux.set('FIRST_INPUT_DELAY_MS', urlSettings[26]);           // AA
   crux.set('CUMULATIVE_LAYOUT_SHIFT_SCORE', urlSettings[27]);  // AB
+  crux.set('INTERACTION_TO_NEXT_PAINT', urlSettings[28]);      // AC
 
   const budget = new Map();
   budget.set('categories', categories);

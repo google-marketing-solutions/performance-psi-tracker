@@ -54,6 +54,7 @@ const BUDGET_DIFF_MATRIX = {
   'CrUX LCP Budget': 'CJ',
   'CrUX FID Budget': 'CQ',
   'CrUX CLS Budget': 'CX',
+  'CrUX INP Budget': 'DE',
 };
 
 /**

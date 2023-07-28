@@ -43,7 +43,7 @@ https://datastudio.google.com/reporting/3491d840-6456-41a2-a912-ba35c6b44a53/pre
 [Update February 2023 - Beta] Revamped Dashboard: https://lookerstudio.google.com/u/0/reporting/fbc4c1df-3766-417a-8ed3-1a10186e08fa/page/jQ9DD/preview
 
 Example Spreadsheet:
-https://docs.google.com/spreadsheets/d/1i_5fiSpbkU3CG9h4MwGzSxchh3Ji6s8Mj0uDQykRoWM/copy
+https://docs.google.com/spreadsheets/d/1GXMzRuSFdAjwydqT-xLDGnxVVwsyW8nSbYboApWCqLA/copy
 
 Presentation on how to set everything up:
 https://docs.google.com/presentation/d/1RMd1q1qyW02Ac0DcSk4VvVfiW6OY3O6a3U8_ESUgSio/edit?usp=sharing
