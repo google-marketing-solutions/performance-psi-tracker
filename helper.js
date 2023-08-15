@@ -331,13 +331,15 @@ function parseResults(content, budgets) {
             metric['distributions'][1]['proportion'],
             metric['distributions'][2]['proportion']);
       } else {
-        crux.push([
-          ,
-          ,
-          ,
-          ,
-          ,
-        ]);  // filler for the sheet if the metric isn't there
+        crux.push(
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        );  // filler for the sheet if the metric isn't there
       }
     });
     // If there's insufficient field data for the page, the API responds with
