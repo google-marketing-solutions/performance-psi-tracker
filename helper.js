@@ -21,19 +21,23 @@
 
 /**
  * @typedef {{
- *            error: {message: string}} |
- *            {lighthouseResult: !Object, loadingExperience: !Object}}
- */
+*            error: {message: string}} |
+*            {lighthouseResult: !Object, loadingExperience: !Object}}
+*/
 let PsiResult;
 
 /**
- * Builds the main menu when opening the spreadsheet.
- *
- * The entry to set the daily trigger is needed, as the permissions aren't
- * ready to set a trigger directly in the onOpen event.
- */
+* Builds the main menu when opening the spreadsheet.
+*
+* The entry to set the daily trigger is needed, as the permissions aren't
+* ready to set a trigger directly in the onOpen event.
+*/
 function onOpen() {
   const menuEntries = [
+    {
+      name: 'Get URLs from Google Ads',
+      functionName: 'getGoogleAdsPages',
+    },
     {
       name: 'Run tests manually',
       functionName: 'runPerfTracker',
@@ -46,31 +50,36 @@ function onOpen() {
   SpreadsheetApp.getActive().addMenu('PSI Tracker', menuEntries);
 }
 
+function getAdsUrls() {
+  getUrls()
+  cleanUrls()
+}
+
 /**
- * Sets the trigger to run the tracker every day.
- *
- */
+* Sets the trigger to run the tracker every day.
+*
+*/
 function setDailyTrigger() {
   const triggerId =
-      PropertiesService.getDocumentProperties().getProperty('triggerId');
+    PropertiesService.getDocumentProperties().getProperty('triggerId');
   if (!triggerId) {
     const trigger = ScriptApp.newTrigger('runPerfTracker')
-                        .timeBased()
-                        .everyDays(1)
-                        .create();
+      .timeBased()
+      .everyDays(1)
+      .create();
     PropertiesService.getDocumentProperties().setProperty(
-        'triggerId', trigger.getUniqueId());
+      'triggerId', trigger.getUniqueId());
   }
 }
 
 /**
- * Reads PSI API Key from the Sheet.
- *
- * If no string is found in the appropriate cell, an alert is shown in the
- * sheet.
- *
- * @return {string} the API Key to use with PSI.
- */
+* Reads PSI API Key from the Sheet.
+*
+* If no string is found in the appropriate cell, an alert is shown in the
+* sheet.
+*
+* @return {string} the API Key to use with PSI.
+*/
 function getPsiApiKey() {
   const sheet = SpreadsheetApp.getActive().getSheetByName(HOW_TO_TAB);
   const key =
@@ -82,8 +91,8 @@ function getPsiApiKey() {
   return key;
 }
 /**
- * Copies the tests tab to create the queue used in the tests.
- */
+* Copies the tests tab to create the queue used in the tests.
+*/
 function cloneSitesSheet() {
   const activeSheet = SpreadsheetApp.getActive();
   const old = activeSheet.getSheetByName(TEMP_QUEUE_TAB);
@@ -96,26 +105,26 @@ function cloneSitesSheet() {
 }
 
 /**
- * Creates the timed trigger to run tests from queue.
- *
- * @param {number} seconds The number seconds after the current time to set the
- *    trigger for.
- */
+* Creates the timed trigger to run tests from queue.
+*
+* @param {number} seconds The number seconds after the current time to set the
+*    trigger for.
+*/
 function setTrigger(seconds) {
   ScriptApp.newTrigger('runBatchFromQueue')
-      .timeBased()
-      .after(seconds * 1000)
-      .create();
+    .timeBased()
+    .after(seconds * 1000)
+    .create();
 }
 
 /**
- * Removes triggers by handler function.
- *
- * Given a function name, all triggers execute said function when fired will be
- * removed from the AppScript project.
- *
- * @param {string} functionName The name of the function run by the trigger.
- */
+* Removes triggers by handler function.
+*
+* Given a function name, all triggers execute said function when fired will be
+* removed from the AppScript project.
+*
+* @param {string} functionName The name of the function run by the trigger.
+*/
 function deleteTriggers(functionName) {
   for (const trigger of ScriptApp.getProjectTriggers() ?? []) {
     if (trigger.getHandlerFunction() === functionName) {
@@ -125,8 +134,8 @@ function deleteTriggers(functionName) {
 }
 
 /**
- * Triggers the tests and outputs the results to the Sheet.
- */
+* Triggers the tests and outputs the results to the Sheet.
+*/
 function runBatchFromQueue() {
   const urlSettings = getURLSettings();
   const responses = submitTests(urlSettings);
@@ -145,9 +154,9 @@ function runBatchFromQueue() {
     if (content.error) {
       sheet.appendRow([url, label, device]);
       const note = `${content.error.message}\n\n` +
-          'If this error persists, investigate the cause by running the ' +
-          'URL manually via ' +
-          'https://developers.google.com/speed/pagespeed/insights/';
+        'If this error persists, investigate the cause by running the ' +
+        'URL manually via ' +
+        'https://developers.google.com/speed/pagespeed/insights/';
       addNote(note, '#fdf6f6');  // light red background
     } else {
       const results = parseResults(content, budgets);
@@ -155,13 +164,13 @@ function runBatchFromQueue() {
       sheet.appendRow(resultsData);
       if (!results.crux_data) {
         addNote(
-            'Not enough CrUX data.\n\nThe CrUX Report does not have ' +
-            'enough data for this URL or domain.');
+          'Not enough CrUX data.\n\nThe CrUX Report does not have ' +
+          'enough data for this URL or domain.');
       } else if (results.origin_fallback) {
         addNote(
-            'Not enough CrUX data.\n\nThe CrUX Report does not have ' +
-            'enough data for this URL and it fell back to showing data ' +
-            'for the origin.');
+          'Not enough CrUX data.\n\nThe CrUX Report does not have ' +
+          'enough data for this URL and it fell back to showing data ' +
+          'for the origin.');
       }
     }
   }
@@ -169,12 +178,12 @@ function runBatchFromQueue() {
 }
 
 /**
- * Creates a budgets map for the given row of the URL settings array.
- *
- * @param {!Array<(string | number)>} urlSettings The url settings
- *     array.
- * @return {!Map<string, !Map<string, number>>} The budget values in an object.
- */
+* Creates a budgets map for the given row of the URL settings array.
+*
+* @param {!Array<(string | number)>} urlSettings The url settings
+*     array.
+* @return {!Map<string, !Map<string, number>>} The budget values in an object.
+*/
 function createBudget(urlSettings) {
   // The keys in budgets are used to index the objects returned from PSI,
   // which is why they are named as they are. The order they are defined here
@@ -208,10 +217,12 @@ function createBudget(urlSettings) {
   assets.set('third-party', urlSettings[23]);  // X
 
   const crux = new Map();
-  crux.set('FIRST_CONTENTFUL_PAINT_MS', urlSettings[24]);      // Y
-  crux.set('LARGEST_CONTENTFUL_PAINT_MS', urlSettings[25]);    // Z
-  crux.set('FIRST_INPUT_DELAY_MS', urlSettings[26]);           // AA
-  crux.set('CUMULATIVE_LAYOUT_SHIFT_SCORE', urlSettings[27]);  // AB
+  crux.set('FIRST_CONTENTFUL_PAINT_MS', urlSettings[24]);                // Y
+  crux.set('LARGEST_CONTENTFUL_PAINT_MS', urlSettings[25]);              // Z
+  crux.set('FIRST_INPUT_DELAY_MS', urlSettings[26]);                     // AA
+  crux.set('EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT', urlSettings[27]);   // AB
+  crux.set('CUMULATIVE_LAYOUT_SHIFT_SCORE', urlSettings[28]);            // AC
+  crux.set('EXPERIMENTAL_TIME_TO_FIRST_BYTE', urlSettings[29]);            // AD
 
   const budget = new Map();
   budget.set('categories', categories);
@@ -222,11 +233,11 @@ function createBudget(urlSettings) {
 }
 
 /**
- * Reads and then deletes rows from the from queue.
- *
- * @return {!Array<!Array<(string | number)>>} An array with all the settings
- *     for each URL.
- */
+* Reads and then deletes rows from the from queue.
+*
+* @return {!Array<!Array<(string | number)>>} An array with all the settings
+*     for each URL.
+*/
 function getURLSettings() {
   const sheet = SpreadsheetApp.getActive().getSheetByName(TEMP_QUEUE_TAB);
   const lastColumn = sheet.getLastColumn() - 1;
@@ -243,48 +254,48 @@ function getURLSettings() {
   return settings;
 }
 /**
- * Builds the fetch URLs for PSI and submits them in parallel.
- *
- * The format of a request to PSI is documented here:
- * https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#request
- *
- * @param {!Array<!Array<(string | number)>>} settings The URL settings for
- *     all
- *    tests.
- * @return {!Array<!GoogleAppsScript.URL_Fetch.HTTPResponse>} All the responses
- *     from PSI.
- */
+* Builds the fetch URLs for PSI and submits them in parallel.
+*
+* The format of a request to PSI is documented here:
+* https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#request
+*
+* @param {!Array<!Array<(string | number)>>} settings The URL settings for
+*     all
+*    tests.
+* @return {!Array<!GoogleAppsScript.URL_Fetch.HTTPResponse>} All the responses
+*     from PSI.
+*/
 function submitTests(settings) {
   const key = getPsiApiKey();
   const categories = 'category=ACCESSIBILITY' +
-      '&category=BEST_PRACTICES' +
-      '&category=PERFORMANCE' +
-      '&category=PWA' +
-      '&category=SEO';
+    '&category=BEST_PRACTICES' +
+    '&category=PERFORMANCE' +
+    '&category=PWA' +
+    '&category=SEO';
   const serverURLs = settings.map(
-      ([url, unused, device]) => ({
-        url: `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${
-            categories}&strategy=${device}&url=${url}&key=${key}`,
-        muteHttpExceptions: true,
-      }));
+    ([url, unused, device]) => ({
+      url: `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${
+        categories}&strategy=${device}&url=${url}&key=${key}`,
+      muteHttpExceptions: true,
+    }));
   const responses = UrlFetchApp.fetchAll(serverURLs);
   return responses;
 }
 
 /**
- * Parses the response from PSI and prepares it for the sheet.
- *
- * The format of the response from PSI is documented here:
- * https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#response
- * 
- * @param {!PsiResult} content The
- *     lighthouseResult object returned from PSI to parse.
- * @param { !Map<string, !Map<string, number>> } budgets The performance budgets
- *     for the test.
- * @return {{data: !Array<number | string>, crux_data: boolean, origin_fallback:
- *     boolean}} Post-processed data as an array and flags for how the CrUX data
- *     was reported.
- */
+* Parses the response from PSI and prepares it for the sheet.
+*
+* The format of the response from PSI is documented here:
+* https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#response
+*
+* @param {!PsiResult} content The
+*     lighthouseResult object returned from PSI to parse.
+* @param { !Map<string, !Map<string, number>> } budgets The performance budgets
+*     for the test.
+* @return {{data: !Array<number | string>, crux_data: boolean, origin_fallback:
+*     boolean}} Post-processed data as an array and flags for how the CrUX data
+*     was reported.
+*/
 function parseResults(content, budgets) {
   const allResults = {
     data: [],
@@ -304,15 +315,15 @@ function parseResults(content, budgets) {
     audits.push(metric, budget, budget - metric);
   });
   const resources =
-      lighthouseResult['audits']['resource-summary']['details']['items'];
+    lighthouseResult['audits']['resource-summary']['details']['items'];
   const assetsObject = Object.fromEntries(
-      resources.map((resource) => [resource.resourceType, resource]));
+    resources.map((resource) => [resource.resourceType, resource]));
   const assets = [];
   budgets.get('assets').forEach((budget, assetType) => {
     const transferSize = assetsObject[assetType]['transferSize'] / 1024;
     assets.push(
-        transferSize, budget, budget - transferSize,
-        assetsObject[assetType]['requestCount']);
+      transferSize, budget, budget - transferSize,
+      assetsObject[assetType]['requestCount']);
   });
   const crux = [];
   if (loadingExperience['metrics']) {
@@ -326,10 +337,10 @@ function parseResults(content, budgets) {
           percentile = percentile / 100;
         }
         crux.push(
-            percentile, budget, budget - percentile, metric['category'],
-            metric['distributions'][0]['proportion'],
-            metric['distributions'][1]['proportion'],
-            metric['distributions'][2]['proportion']);
+          percentile, budget, budget - percentile, metric['category'],
+          metric['distributions'][0]['proportion'],
+          metric['distributions'][1]['proportion'],
+          metric['distributions'][2]['proportion']);
       } else {
         crux.push(
           undefined,
@@ -353,12 +364,12 @@ function parseResults(content, budgets) {
 }
 
 /**
- * Attaches an info note to the current last row of the sheet.
- *
- * @param {string} note The note to add.
- * @param {?string=} formatColor The background color of the note in rgb
- *     hex. The default null value leaves the color as is.
- */
+* Attaches an info note to the current last row of the sheet.
+*
+* @param {string} note The note to add.
+* @param {?string=} formatColor The background color of the note in rgb
+*     hex. The default null value leaves the color as is.
+*/
 function addNote(note, formatColor = null) {
   const sheet = SpreadsheetApp.getActive().getSheetByName(RESULTS_TAB);
   const lastRow = sheet.getLastRow();
