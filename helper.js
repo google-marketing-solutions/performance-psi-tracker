@@ -303,16 +303,50 @@ function parseResults(content, budgets) {
     const metric = lighthouseResult['audits'][audit]['numericValue'];
     audits.push(metric, budget, budget - metric);
   });
-  const resources =
-      lighthouseResult['audits']['resource-summary']['details']['items'];
-  const assetsObject = Object.fromEntries(
-      resources.map((resource) => [resource.resourceType, resource]));
+  let assetsObject = {
+    "total":{},
+    "script":{},
+    "image":{},
+    "stylesheet":{},
+    "document":{},
+    "font":{},
+    "other":{}
+  }
+  try{
+    assetsObject["total"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"].reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["script"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Script").reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["image"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Image").reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["stylesheet"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Stylesheet").reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["document"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Document").reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["font"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Font").reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["other"].transferSize = lighthouseResult["audits"]["network-requests"]["details"]["items"]
+      .filter(d=>["Document","Stylesheet","Font","Image","Script"].indexOf(d["resourceType"]) == -1)
+      .reduce((a,b)=>a+b.transferSize,0)
+    assetsObject["total"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"].length
+    assetsObject["script"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Script").length
+    assetsObject["image"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Image").length
+    assetsObject["stylesheet"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Stylesheet").length
+    assetsObject["document"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Document").length
+    assetsObject["font"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"].filter(d=>d["resourceType"] == "Font").length
+    assetsObject["other"].requestCount = lighthouseResult["audits"]["network-requests"]["details"]["items"]
+      .filter(d=>["Document","Stylesheet","Font","Image","Script"].indexOf(d["resourceType"]) == -1)
+      .length
+  }
+  catch(e){
+    Logger.log('Error on parsing lighthouseResult["audits"]["network-requests"]["details"]["items"]')
+  }
+
   const assets = [];
   budgets.get('assets').forEach((budget, assetType) => {
-    const transferSize = assetsObject[assetType]['transferSize'] / 1024;
-    assets.push(
-        transferSize, budget, budget - transferSize,
-        assetsObject[assetType]['requestCount']);
+    try{
+      const transferSize = assetsObject[assetType]['transferSize'] / 1024;
+      assets.push(
+          transferSize, budget, budget - transferSize,
+          assetsObject[assetType]['requestCount']);
+    }
+    catch(e){
+      assets.push("", "", "", "")
+    }
   });
   const crux = [];
   if (loadingExperience['metrics']) {
