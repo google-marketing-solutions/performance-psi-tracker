@@ -382,7 +382,11 @@ function parseResults(content, budgets) {
       allResults.origin_fallback = true;
     }
   }
-  allResults.data = [...categories, ...audits, ...assets, version, ...crux];
+  const totalByteWeight =
+  lighthouseResult['audits']['total-byte-weight']['numericValue'];
+  const url = lighthouseResult['finalUrl'];
+  const co2eq = getCo2eqPerByte(totalByteWeight, url);
+  allResults.data = [...categories, ...audits, ...assets, version, ...crux, co2eq];
   return allResults;
 }
 
