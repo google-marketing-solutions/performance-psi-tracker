@@ -15,27 +15,27 @@
  * limitations under the License.
  */
 
-/* exported getCo2eqPerByte */
+/* exported getCO2eqPerByte */
 
 /**
  * Environment-wide variable that will be overridden by the IIFE import.
  */
-let co2Library;
+let CO2Library;
 
 /**
- * Imports the co2 library using eval().
+ * Imports the CO2 library using eval().
  *
  * Note: eval() is a security risk, only used due to AS limitations.
  */
-function importCo2Library() {
-  if (typeof co2Library !== 'undefined') return;
+function importCO2Library() {
+  if (typeof CO2Library !== 'undefined') return;
   try {
     eval(
         UrlFetchApp
             .fetch(
-                'https://cdn.jsdelivr.net/npm/@tgwf/co2@latest/dist/iife/index.js')
+                'https://cdn.jsdelivr.net/npm/@tgwf/CO2@latest/dist/iife/index.js')
             .getContentText());
-    co2Library = co2;
+    CO2Library = CO2;
   } catch (error) {
     Logger.log(error);
   }
@@ -49,9 +49,6 @@ function importCo2Library() {
  *     false otherwise.
  */
 function checkGreenHosting(url) {
-  if (typeof co2Library === 'undefined') {
-    importCo2Library();
-  }
   const hostname = url.split('/')[2];
   const responseRaw = UrlFetchApp.fetch(
       `https://api.thegreenwebfoundation.org/greencheck/${hostname}`);
@@ -67,9 +64,9 @@ function checkGreenHosting(url) {
  *     take into account whether the URL is hosted on a green hosting provider.
  * @return {number} Estimated grams of CO2eq per byte.
  */
-function getCo2eqPerByte(totalBytes, url = '') {
-  if (typeof co2Library === 'undefined') {
-    importCo2Library();
+function getCO2eqPerByte(totalBytes, url = '') {
+  if (typeof CO2Library === 'undefined') {
+    importCO2Library();
   }
   // If the URL is specified, we check whether TGWF has data on type
   let isGreenHosting = false;
@@ -77,6 +74,6 @@ function getCo2eqPerByte(totalBytes, url = '') {
     isGreenHosting = checkGreenHosting(url);
   }
   // Then we proceed with the calculation
-  const co2Calculation = new co2Library.co2(); // eslint-disable-line new-cap
-  return co2Calculation.perByte(totalBytes, isGreenHosting);
+  const CO2Calculation = new CO2Library.CO2(); // eslint-disable-line new-cap
+  return CO2Calculation.perByte(totalBytes, isGreenHosting);
 }

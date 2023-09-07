@@ -385,8 +385,8 @@ function parseResults(content, budgets) {
   const totalByteWeight =
   lighthouseResult['audits']['total-byte-weight']['numericValue'];
   const url = lighthouseResult['finalUrl'];
-  const co2eq = getCo2eqPerByte(totalByteWeight, url);
-  allResults.data = [...categories, ...audits, ...assets, version, ...crux, co2eq];
+  const CO2eq = getCO2eqPerByte(totalByteWeight, url);
+  allResults.data = [...categories, ...audits, ...assets, version, ...crux, CO2eq];
   return allResults;
 }
 
