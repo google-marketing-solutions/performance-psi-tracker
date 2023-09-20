@@ -18,9 +18,7 @@ limitations under the License.
 ## Problem
 
 Many people require a lightweight solution for tracking their page performance.
-They also do not want to have to pay for anything to get started. The solutions
-currently available are either too complex for non-technical users (e.g. [AutoWebPerf](https://github.com/GoogleChromeLabs/AutoWebPerf)
-or sitespeed.io) or too expensive (e.g. speedcurve, calibre, etc.)
+They also do not want to have to pay for anything to get started.
 
 ## Solution
 
