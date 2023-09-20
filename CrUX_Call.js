@@ -1,16 +1,40 @@
+let CRUX_HISTORY_API_ENDPOINT = "https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord?";
 /**
- * Create a PSI request (GET)
+ * Create a CrUX History Request (POST) ready to be fetched
  */
-function newPSIRequest(url="http://web.dev.com",device="MOBILE"){
-    const PSI_KEY = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config").getRange("B6").getValue();
-    const PSI_API_ENDPOINT = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?";
-    let endpoint_url = PSI_API_ENDPOINT;
-    endpoint_url += "key=" + PSI_KEY;
-    endpoint_url += '&category=ACCESSIBILITY&category=BEST_PRACTICES&category=PERFORMANCE&category=PWA&category=SEO';
-    endpoint_url += '&strategy=' + device
-    endpoint_url += '&url=' + url
-    return {
-    'url': endpoint_url,
-    'muteHttpExceptions': true,
-  }
+function newCrUXHistoryRequest(url,device, origin){
+    const CRUX_KEY = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config").getRange("B6").getValue();
+    let post_request = {
+      'url': CRUX_HISTORY_API_ENDPOINT + "key=" + CRUX_KEY,
+      'method' : 'post',
+      'payload' : {
+        'formFactor': device=="MOBILE"?"PHONE":"DESKTOP",
+        // 'origin': url.toString()
+      },
+      'muteHttpExceptions': true
+    }
+    if(origin == "URL"){post_request["payload"]["url"] = url.toString()}
+    if(origin == "Origin"){post_request["payload"]["origin"] = url.toString()}
+    return post_request
+}
+
+
+let CRUX_API_ENDPOINT = "https://chromeuxreport.googleapis.com/v1/records:queryRecord?";
+/**
+ * Create a CrUX Request (POST) ready to be fetched
+ */
+function newCrUXRequest(url,device, origin){
+    const CRUX_KEY = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config").getRange("B6").getValue();
+    let post_request = {
+      'url': CRUX_API_ENDPOINT + "key=" + CRUX_KEY,
+      'method' : 'post',
+      'payload' : {
+        'formFactor': device=="MOBILE"?"PHONE":"DESKTOP",
+        // 'origin': url.toString()
+      },
+      'muteHttpExceptions': true
+    }
+    if(origin == "URL"){post_request["payload"]["url"] = url.toString()}
+    if(origin == "Origin"){post_request["payload"]["origin"] = url.toString()}
+    return post_request
 }
