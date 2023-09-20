@@ -15,45 +15,21 @@ limitations under the License.
  
 # Performance PSI Tracker
 
-## Problem
+Demo: https://docs.google.com/spreadsheets/d/1yEJEykmgPnz8YIKBlXZFFwlt8F7uFxAhZOEs-EBQKOE/edit?resourcekey=0-hR6O3nPoOo5y10dSLXJjrw#gid=0
 
-Many people require a lightweight solution for tracking their page performance.
-They also do not want to have to pay for anything to get started. The solutions
-currently available are either too complex for non-technical users (e.g. [AutoWebPerf](https://github.com/GoogleChromeLabs/AutoWebPerf)
-or sitespeed.io) or too expensive (e.g. speedcurve, calibre, etc.)
+## Summary
 
-## Solution
+How to scan and track web performance across many URLs at scale?
 
-Performance PSI Tracker is a simple, straightforward solution for simple
-pagespeed tracking. It uses a Google Sheets with App Script and a Data Studio
-Dashboard template to allow users to enter the URLs to track and visualise
-the results.
+## Why?
 
-## Deploying
+Tracking web performance changes and improvement is hard for advertisers whose teams have heterogeneous needs and objectives. Available tools are expensive and require some heavy set-up. 
 
-The code files need to be copied into an AppScript project attached to a Google
-Sheet.
+## What?
 
-You will also need a Pagespeed Insights API key to use the solution. You can get one on the [Pagespeed Insights documentation site](https://developers.google.com/speed/docs/insights/v5/get-started).
+A free and comprehensive solution to track RUM data from CrUX and synthetic data from Lighthouse using only a Google Sheets to fetch APIs and store data. No code required
 
-## Examples 
-Example Dashboard:
-https://datastudio.google.com/reporting/3491d840-6456-41a2-a912-ba35c6b44a53/preview
+## Get Started
 
-[Update February 2023 - Beta] Revamped Dashboard: https://lookerstudio.google.com/u/0/reporting/fbc4c1df-3766-417a-8ed3-1a10186e08fa/page/jQ9DD/preview
+Make a copy of https://docs.google.com/spreadsheets/d/1yEJEykmgPnz8YIKBlXZFFwlt8F7uFxAhZOEs-EBQKOE/edit?resourcekey=0-hR6O3nPoOo5y10dSLXJjrw#gid=0 and follow instructions.
 
-Example Spreadsheet:
-https://docs.google.com/spreadsheets/d/1i_5fiSpbkU3CG9h4MwGzSxchh3Ji6s8Mj0uDQykRoWM/copy
-
-Presentation on how to set everything up:
-https://docs.google.com/presentation/d/1RMd1q1qyW02Ac0DcSk4VvVfiW6OY3O6a3U8_ESUgSio/edit?usp=sharing
-
-
-## Main Functions (for testing):
-
-File            | Function
---------------- | ---------------------------------------------------------
-helper.gs       | cloneSiteSheet (required when running a whole new report)
-helper.gs       | runBatchFromQueue (generating a report)
-sendAlerts.gs   | checkBudgets (independently check budgets)
-sendAlerts.gs   | alertUsers (independently send out emails)
