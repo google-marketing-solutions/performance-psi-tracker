@@ -51,7 +51,7 @@ see errors instead of performance data without one.
 
 To get a key:
 
-1.  In your browser, open
+1. In your browser, open
 [https://developers.google.com/speed/docs/insights/v5/get-started](https://developers.google.com/speed/docs/insights/v5/get-started). 
 1.  Under **[Acquiring and using an API key](https://developers.google.com/speed/docs/insights/v5/get-started#APIKey)**,
   click the blue button labeled _Get a Key_. 
