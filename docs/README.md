@@ -14,7 +14,7 @@ limitations under the License.
 
 # Performance PSI Tracker
 
-<img src="/imgs/psi_tracker_screenshot.webp" alt="Screenshot of the Performance PSI Tracker" width="40%" >
+<img src="./imgs/psi_tracker_screenshot.webp" alt="Screenshot of the Performance PSI Tracker" width="40%" >
 
 * [About the Performance PSI Tracker](#about-the-performance-psi-tracker)
 * [Setting up the Tracker](#setting-up-the-tracker)
