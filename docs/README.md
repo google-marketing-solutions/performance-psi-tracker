@@ -106,8 +106,9 @@ Sheet. More detailed instructions follow:
    * **URL/Origin** - whether to query CrUX for data for the specific URL or
      for the entire origin. The options are "URL" or "Origin". Any other values
      will result in no CrUX data being saved for the URL.
-   * **Active** - a checkbox to signal whether the URL should be sent to
-     PSI. When adding a new row, you can copy the checkbox from the row above.
+   * **Active** - a checkbox to signal whether the URL should be included in the
+     tracking. When adding a new row, be sure to use a checkbox here to ensure
+     the value is correctly recognized.
    * **Status** - shows which state the tracker is in with regards to the URL
      in that row. This is updated by the tracker, and doesn't need to be set
      manually.
@@ -125,14 +126,14 @@ Sheet. More detailed instructions follow:
 
    <img src="./imgs/psi_tracker_results.webp" alt="Screenshot of the Performance PSI Tracker Results tab with metrics for multiple days." width="50%">
 
-Following those steps should result in the Results tab being updated daily with
+Following these steps should result in the Results tab being updated daily with
 new performance metrics. The rest of the settings on the sheet are for advanced
 users and detailed below.
 
 ## Using the Performance PSI Tracker
 
-Once everything is set up and the Results tab is being populated daily, you can
-use the tracker to track the performance metrics of your webpages over time.
+Once everything is set up, the Results tab is populated daily providing a steady
+stream of performance data.
 
 The CrUX-related columns in the Results are automatically color coded for you
 based on the [official thresholds from web.dev](https://web.dev/vitals/).
@@ -160,20 +161,22 @@ for more information.
 > There are two buttons at the bottom of the Config worksheet that
 > can be destructive to any changes you've made to the Tracker.
 >
-> The button labeled **Reset** will replace all of the URLs entered in the
-> Config worksheet with a standard set of URLs from web.dev.
+> **Reset** will replace all of the URLs entered in the Config worksheet with a
+> standard set of URLs from web.dev.
 >
-> The button labeled **Delete** will delete all of the data in the Results worksheet.
+> **Delete** will delete all of the data in the Results worksheet.
 
 ## Visualizing Your Metrics
 
 ### Visualizing with Google Sheets
 
-One of the simplest methods of visualizing your data is using Google
-Sheets. Some things to note when creating visualizations:
+Adding charts directly to the PSI Performance Tracker is an easy option for
+getting started with visualization.
+
+Some things to note when creating charts in the Tracker:
 
 * Do not add charts to the config or results tab directly. This can cause the
-  tool to stop working.
+  tool to stop working until they are removed.
 * You cannot plot multiple sites separately using the raw results.
 * Copying parts of the results is useful for one-off charts to identify
   historical trends, but not useful for ongoing tracking.
@@ -206,9 +209,10 @@ only the data you want to visualize.
 
 ### Visualizing with Looker Studio
 
-The simplest way to get started with using Looker Studio to visualize you data
-is to make a copy of the template dashboard and then personalize it for your
-brand and focus metrics. To connect your data to the template:
+Looker Studio offers a more feature-full method to visualize you data. The
+easiest way to get started with Looker Studio is to make a copy of the template
+dashboard and then personalize it for your brand and focus metrics. To connect
+your data to the template:
 
 1. Open the [Performance PSI Tracker Template
    dashboard](https://lookerstudio.google.com/u/0/reporting/fbc4c1df-3766-417a-8ed3-1a10186e08fa/page/jQ9DD/preview)
