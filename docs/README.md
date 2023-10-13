@@ -14,13 +14,13 @@ limitations under the License.
 
 # Performance PSI Tracker
 
-<img src="./imgs/psi_tracker_screenshot.webp" alt="Screenshot of the Performance PSI Tracker" width="40%" >
+<img src="./imgs/psi_tracker_screenshot.webp" alt="Screenshot of the Performance PSI Tracker" width="60%" >
 
 * [About the Performance PSI Tracker](#about-the-performance-psi-tracker)
 * [Setting up the Tracker](#setting-up-the-tracker)
     - [Getting a PSI API Key](#getting-a-psi-api-key)
     - [Configuring the Tracker](#configuring-the-tracker)
-* [Using the Performance PSI Tracker](#using-the-psi-performance-tracker)
+* [Using the Performance PSI Tracker](#using-the-performance-psi-tracker)
 * [Visualizing your Metrics](#visualizing-your-metrics)
 * [Advanced Configuration](#advanced-configuration)
 
@@ -32,9 +32,9 @@ and reporting on website performance metrics, focusing on the
 configuration and storing results, so there's no coding or deployment needed to
 get started.
 
-All of the metrics are provided by the 
+All of the metrics are provided by the
 [Pagespeed Insights](https://developers.google.com/speed/docs/insights/v5/about)
-(PSI) service. PSI runs 
+(PSI) service. PSI runs
 [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/)
 on your website for synthetic metrics and fetches data from the
 [Chrome User Experience Report](https://developer.chrome.com/docs/crux/) (CrUX)
@@ -51,21 +51,25 @@ see errors instead of performance data without one.
 To get a key:
 
 1. In your browser, open
-[https://developers.google.com/speed/docs/insights/v5/get-started](https://developers.google.com/speed/docs/insights/v5/get-started). 
+[https://developers.google.com/speed/docs/insights/v5/get-started](https://developers.google.com/speed/docs/insights/v5/get-started).
 1. Under **[Acquiring and using an API key](https://developers.google.com/speed/docs/insights/v5/get-started#APIKey)**,
-   click the blue button labeled _Get a Key_. 
-1. In the dialog that opens, either select an existing Google Cloud project or 
-   create a new one dedicated to the tracker. 
+   click the blue button labeled _Get a Key_.
+1. In the dialog that opens, either select an existing Google Cloud project or
+   create a new one dedicated to the tracker.
+
    <img src="./imgs/api_key_step_1.webp" alt="Enabling the Pagespeed Insights API dialog" width="30%">
+
 1. Agree to the Terms and Conditions, and then click **NEXT** to create the API
-   key. 
+   key.
 1. Once the key is created, click the **SHOW KEY** button to reveal your API
-   key. 
+   key.
+
    <img src="./imgs/api_key_step_2.webp" alt="You're all set dialog after generating a PSI API key" width="30%">
+
 1. Use the copy icon to copy your API key to the clip board. You can also find
    the key in the [_APIs & Services_ section](https://console.cloud.google.com/apis/credentials)
    of the Google Cloud Console for the project you chose.
-  
+
 > [!IMPORTANT]
 > The API key you created can be used for _any_ Google API. It is suggested
 > that you restrict the key to specific APIs (namely, Pagespeed Insights)
@@ -85,8 +89,10 @@ The steps to configure the tracker are outlined on the _Config_ tab of the
 Sheet. More detailed instructions follow:
 
 1. Paste the API key you created before starting into cell B6, below the label
-   _API Key for PSI+CrUX (necessary for CrUX and for automated PSI)_. 
+   _API Key for PSI+CrUX (necessary for CrUX and for automated PSI)_.
+
    <img src="./imgs/config_step_1.webp" alt="Screenshot of the cell in the tracker for the PSI API key with a red arrow pointing at it." width="25%">
+
 1. In the cells on the right of the sheet, enter the details of the websites
    you want to track. The columns have the following uses:
    * **Label** - a free-text label to help tell URLs apart. It can also be used
@@ -110,11 +116,14 @@ Sheet. More detailed instructions follow:
 1. Click the **Call PSI API** button to test your configuration. This should
    result in a number of toasts being shown at the bottom right of the sheet,
    with the final toast saying to check the results sheet.
+
    <img src="./imgs/psi_tracker_toast.webp" alt="Google Sheets notification toast saying 'Received Data. Parsing information - Check the Results sheet'." width="25%">
-1. If the Results sheet is properly populated after clicking the **Call PSI 
-   API** button, click the **Set PSI daily trigger** button to start daily 
+
+1. If the Results sheet is properly populated after clicking the **Call PSI
+   API** button, click the **Set PSI daily trigger** button to start daily
    measurement.
-   <img src="./imgs/psi_tracker_results.webp" alt="Screenshot of the Performance PSI Tracker Results tab with metrics for multiple days." width="25%">
+
+   <img src="./imgs/psi_tracker_results.webp" alt="Screenshot of the Performance PSI Tracker Results tab with metrics for multiple days." width="50%">
 
 Following those steps should result in the Results tab being updated daily with
 new performance metrics. The rest of the settings on the sheet are for advanced
@@ -126,9 +135,9 @@ Once everything is set up and the Results tab is being populated daily, you can
 use the tracker to track the performance metrics of your webpages over time.
 
 The CrUX-related columns in the Results are automatically color coded for you
-based on the [official thresholds from web.dev](https://web.dev/vitals/). 
-<span style="background: #b7e1cd">Green</span> is good; 
-<span style="background: #fff2cc">Yellow</span> is Needs Improvement; 
+based on the [official thresholds from web.dev](https://web.dev/vitals/).
+<span style="background: #b7e1cd">Green</span> is good;
+<span style="background: #fff2cc">Yellow</span> is Needs Improvement;
 <span style="background: #f4cccc">Red</span> is Poor.
 
 To review the progress of a single page, you can add a data filter to the first
@@ -147,12 +156,13 @@ on conditional
 formatting](https://support.google.com/docs/answer/78413?hl=en&co=GENIE.Platform%3DDesktop&oco=0)
 for more information.
 
-> [!WARNING] There are two buttons at the bottom of the Config worksheet that
-> can be distructive to any changes you've made to the Tracker.
+> [!WARNING] 
+> There are two buttons at the bottom of the Config worksheet that
+> can be destructive to any changes you've made to the Tracker.
 >
 > The button labeled **Reset** will replace all of the URLs entered in the
-> Config worksheet with a standard set of URLs from web.dev.  
-> 
+> Config worksheet with a standard set of URLs from web.dev.
+>
 > The button labeled **Delete** will delete all of the data in the Results worksheet.
 
 ## Visualizing Your Metrics
@@ -178,13 +188,17 @@ To create the pivot table:
 1. From the _Insert_ menu, select _Pivot table_.
 1. In the **Data Range** field, enter `Results!A:AI`.
 1. Ensure **New Sheet** is selected under _Insert to_.
-1. Click **Create**.  <img src="./imgs/create_pivot_table.webp" alt="The Create Pivot Table dialog in Google Sheets showing the range to use for creating charts." width="30%">
+1. Click **Create**.
+
+   <img src="./imgs/create_pivot_table.webp" alt="The Create Pivot Table dialog in Google Sheets showing the range to use for creating charts." width="30%">
+
 1. Add the _Date_ field to the Rows section of the Pivot table editor.
 1. Add the _Label_ field to the Columns section of the Pivot table editor.
 1. Add the metric columns you want to chart to the Values section of the Pivot
-   table editor.  
+   table editor.
+
    <img src="./imgs/pivot_config.webp" alt="The Google Sheets Pivot table editor with Date as Rows, Label as Columns, and CrUX LCP as Values." width="30%">
-   
+
 To create a chart, with a cell of the pivot table selected, select the _Insert >
 Chart_ menu item. This will insert a chart with all of the data from the pivot
 table. You can then use the Chart editor to edit the chart format and select
@@ -206,7 +220,9 @@ brand and focus metrics. To connect your data to the template:
    first row as headers_ and _Include hidden and filtered fields_ options are
    selected.
 1. Click the **Add** button at the bottom-right of the page.
-   <img src="./imgs/add_sheet_to_looker.webp" alt="The Looker Studio 'Add data to report' dialog with the PSI Tracker Sample spreadsheet and the Results worksheet selected" width="30%">
+
+   <img src="./imgs/add_sheet_to_looker.webp" alt="The Looker Studio 'Add data to report' dialog with the PSI Tracker Sample spreadsheet and the Results worksheet selected" width="45%">
+   
 1. If prompted, confirm you want to add the data to the report by clicking the
    **ADD TO REPORT** button. This may not be shown for users who have selected
    not to see it in the past.
@@ -220,19 +236,21 @@ useful.
 
 If available, the dashboard should include charts that highlight the
 relationship between site performance and business metrics. How you add this
-data will depend on how you measure business metrics. The easiest method is to
-import the data into a new worksheet in the Performance PSI Tracker spreadsheet,
-for example with the [GA Spreadsheet
+data will depend on how you measure business metrics. 
+
+The easiest method is to import the data into a new worksheet in the Performance
+PSI Tracker spreadsheet, for example with the [GA Spreadsheet
 Add-in](https://ga-dev-tools.google/spreadsheet-add-on/), and then use
 [VLOOKUP](https://support.google.com/docs/answer/3093318) or the
 [QUERY](https://support.google.com/docs/answer/3093343) function to join the
 performance and business data in sheets. You can then add the worksheet with the
 joined data to the dashboard as a data source (see the
 [documentation](https://support.google.com/looker-studio/answer/6300774) for
-more information). Another option is to add the business data as a separate data
-source to the dashboard and then use a data blend in Looker Studio. Doing this
-correctly can require more advanced Looker Studio knowledge. Please see the
-[documentation on
+more information). 
+
+Another option is to add the business data as a separate data source to the
+dashboard and then use a data blend in Looker Studio. Doing this correctly can
+require more advanced Looker Studio knowledge. Please see the [documentation on
 blends](https://support.google.com/looker-studio/answer/9061420) for more info.
 
 ## Advanced Configuration
@@ -253,7 +271,7 @@ The Fields worksheet is used to configure the columns present in the Results wor
   + _PSI API_ - used with data from the [Pagespeed Insights API](https://developers.google.com/speed/docs/insights/v5/get-started)
   + _CrUX History_ - used with data from the [CrUX History API](https://developer.chrome.com/docs/crux/history-api/)
   + _CrUX_ - used with data from the [CrUX API](https://developer.chrome.com/docs/crux/api/)
-  
+
 > [!IMPORTANT]
 > The Method names are case-sensitive. Be sure to enter them correctly.
 
