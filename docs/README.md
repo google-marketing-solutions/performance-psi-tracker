@@ -56,12 +56,12 @@ To get a key:
    click the blue button labeled _Get a Key_. 
 1. In the dialog that opens, either select an existing Google Cloud project or 
    create a new one dedicated to the tracker. 
-   <img src="/imgs/api_key_step_1.webp" alt="Enabling the Pagespeed Insights API dialog" width="30%">
+   <img src="./imgs/api_key_step_1.webp" alt="Enabling the Pagespeed Insights API dialog" width="30%">
 1. Agree to the Terms and Conditions, and then click **NEXT** to create the API
    key. 
 1. Once the key is created, click the **SHOW KEY** button to reveal your API
    key. 
-   <img src="/imgs/api_key_step_2.webp" alt="You're all set dialog after generating a PSI API key" width="30%">
+   <img src="./imgs/api_key_step_2.webp" alt="You're all set dialog after generating a PSI API key" width="30%">
 1. Use the copy icon to copy your API key to the clip board. You can also find
    the key in the [_APIs & Services_ section](https://console.cloud.google.com/apis/credentials)
    of the Google Cloud Console for the project you chose.
@@ -86,7 +86,7 @@ Sheet. More detailed instructions follow:
 
 1. Paste the API key you created before starting into cell B6, below the label
    _API Key for PSI+CrUX (necessary for CrUX and for automated PSI)_. 
-   <img src="/imgs/config_step_1.webp" alt="Screenshot of the cell in the tracker for the PSI API key with a red arrow pointing at it." width="25%">
+   <img src="./imgs/config_step_1.webp" alt="Screenshot of the cell in the tracker for the PSI API key with a red arrow pointing at it." width="25%">
 1. In the cells on the right of the sheet, enter the details of the websites
    you want to track. The columns have the following uses:
    * **Label** - a free-text label to help tell URLs apart. It can also be used
@@ -110,11 +110,11 @@ Sheet. More detailed instructions follow:
 1. Click the **Call PSI API** button to test your configuration. This should
    result in a number of toasts being shown at the bottom right of the sheet,
    with the final toast saying to check the results sheet.
-   <img src="/imgs/psi_tracker_toast.webp" alt="Google Sheets notification toast saying 'Received Data. Parsing information - Check the Results sheet'." width="25%">
+   <img src="./imgs/psi_tracker_toast.webp" alt="Google Sheets notification toast saying 'Received Data. Parsing information - Check the Results sheet'." width="25%">
 1. If the Results sheet is properly populated after clicking the **Call PSI 
    API** button, click the **Set PSI daily trigger** button to start daily 
    measurement.
-   <img src="/imgs/psi_tracker_results.webp" alt="Screenshot of the Performance PSI Tracker Results tab with metrics for multiple days." width="25%">
+   <img src="./imgs/psi_tracker_results.webp" alt="Screenshot of the Performance PSI Tracker Results tab with metrics for multiple days." width="25%">
 
 Following those steps should result in the Results tab being updated daily with
 new performance metrics. The rest of the settings on the sheet are for advanced
@@ -178,12 +178,12 @@ To create the pivot table:
 1. From the _Insert_ menu, select _Pivot table_.
 1. In the **Data Range** field, enter `Results!A:AI`.
 1. Ensure **New Sheet** is selected under _Insert to_.
-1. Click **Create**.  <img src="/imgs/create_pivot_table.webp" alt="The Create Pivot Table dialog in Google Sheets showing the range to use for creating charts." width="30%">
+1. Click **Create**.  <img src="./imgs/create_pivot_table.webp" alt="The Create Pivot Table dialog in Google Sheets showing the range to use for creating charts." width="30%">
 1. Add the _Date_ field to the Rows section of the Pivot table editor.
 1. Add the _Label_ field to the Columns section of the Pivot table editor.
 1. Add the metric columns you want to chart to the Values section of the Pivot
    table editor.  
-   <img src="/imgs/pivot_config.webp" alt="The Google Sheets Pivot table editor with Date as Rows, Label as Columns, and CrUX LCP as Values." width="30%">
+   <img src="./imgs/pivot_config.webp" alt="The Google Sheets Pivot table editor with Date as Rows, Label as Columns, and CrUX LCP as Values." width="30%">
    
 To create a chart, with a cell of the pivot table selected, select the _Insert >
 Chart_ menu item. This will insert a chart with all of the data from the pivot
@@ -206,7 +206,7 @@ brand and focus metrics. To connect your data to the template:
    first row as headers_ and _Include hidden and filtered fields_ options are
    selected.
 1. Click the **Add** button at the bottom-right of the page.
-   <img src="/imgs/add_sheet_to_looker.webp" alt="The Looker Studio 'Add data to report' dialog with the PSI Tracker Sample spreadsheet and the Results worksheet selected" width="30%">
+   <img src="./imgs/add_sheet_to_looker.webp" alt="The Looker Studio 'Add data to report' dialog with the PSI Tracker Sample spreadsheet and the Results worksheet selected" width="30%">
 1. If prompted, confirm you want to add the data to the report by clicking the
    **ADD TO REPORT** button. This may not be shown for users who have selected
    not to see it in the past.
