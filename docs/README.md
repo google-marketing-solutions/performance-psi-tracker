@@ -20,9 +20,9 @@ limitations under the License.
 * [Setting up the Tracker](#setting-up-the-tracker)
     - [Getting a PSI API Key](#getting-a-psi-api-key)
     - [Configuring the Tracker](#configuring-the-tracker)
-* []Using the Performance PSI Tracker]()
-* Visualizing your Metrics
-* Advanced Configuration
+* [Using the Performance PSI Tracker](#using-the-psi-performance-tracker)
+* [Visualizing your Metrics](#visualizing-your-metrics)
+* [Advanced Configuration](#advanced-configuration)
 
 ## About the Performance PSI Tracker
 
@@ -147,6 +147,14 @@ on conditional
 formatting](https://support.google.com/docs/answer/78413?hl=en&co=GENIE.Platform%3DDesktop&oco=0)
 for more information.
 
+> [!WARNING] There are two buttons at the bottom of the Config worksheet that
+> can be distructive to any changes you've made to the Tracker.
+>
+> The button labeled **Reset** will replace all of the URLs entered in the
+> Config worksheet with a standard set of URLs from web.dev.  
+> 
+> The button labeled **Delete** will delete all of the data in the Results worksheet.
+
 ## Visualizing Your Metrics
 
 ### Visualizing with Google Sheets
@@ -226,3 +234,33 @@ source to the dashboard and then use a data blend in Looker Studio. Doing this
 correctly can require more advanced Looker Studio knowledge. Please see the
 [documentation on
 blends](https://support.google.com/looker-studio/answer/9061420) for more info.
+
+## Advanced Configuration
+
+### Limiting API Calls to Avoid Quota Errors
+
+The Pagespeed Insights (PSI) API has a default quota of 25k queries per day and 240 queries per minute. For most project this is more than enough. However, for PSI Tracker projects with many URLs, or when the API key is shared among a number of trackers, you may receive over quota errors instead of results. Large numbers of URLs being tracked can also lead to the App Script engine timing out. To avoid these issues, the Config worksheet has three fields you can use to limit how you use the PSI API.
+
+* **Number of URLs per batch** allows you to limit the number of API calls made at one time to avoid going over the queries per minute quota.
+* **Avoid maxiumum execution time, run batches on triggers** sets a timer between test batches to ensure the App Script engine does not run to the maxium time for a single job.
+* **If TRUE, time in minute between batches** the time between batches being started, if the above parameter is set to true.
+
+### Adding Custom Results Fields
+
+The Fields worksheet is used to configure the columns present in the Results worksheet. There are three columns with the following meanings:
+
+* **Method** Is used to specify which method, or API, is being used to fetch the data. The acceptable values are:
+  + _PSI API_ - used with data from the [Pagespeed Insights API](https://developers.google.com/speed/docs/insights/v5/get-started)
+  + _CrUX History_ - used with data from the [CrUX History API](https://developer.chrome.com/docs/crux/history-api/)
+  + _CrUX_ - used with data from the [CrUX API](https://developer.chrome.com/docs/crux/api/)
+  
+> [!IMPORTANT]
+> The Method names are case-sensitive. Be sure to enter them correctly.
+
+* **Field** Corresponds to a column header (row A) in the Results
+  worksheet. This is where the data will be recorded.
+* **Data** This is an App Script expression that will be evaluated, whose return
+  value is written to the specified field. The variable `content` is provided
+  and contains the parsed JSON object returned by the API specified in the
+  Method field. Please see the standard expressions for examples of how to write
+  appropriate custom expressions.
