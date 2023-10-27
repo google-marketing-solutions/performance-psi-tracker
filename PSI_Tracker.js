@@ -23,8 +23,16 @@
 const SCREENSHOT_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots")
 const FIELD_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Fields")
 const RESULT_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results")
+const GREEN_DOMAIN_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Green Domains (GWF)")
 const CONFIG_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config")
+const DEBUG_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Debug")
+const ACCESSIBILITY_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Accessibility")
+const SUSTAINABILITY_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sustainability")
+
 const RESULT_SHEET_HEADER = RESULT_SHEET.getRange("1:1").getValues()
+const GREEN_DOMAIN_HEADER = GREEN_DOMAIN_SHEET.getRange("1:1").getValues()
+const ACCESSIBILITY_SHEET_HEADER = ACCESSIBILITY_SHEET.getRange("1:1").getValues()
+const SUSTAINABILITY_SHEET_HEADER = SUSTAINABILITY_SHEET.getRange("1:1").getValues()
 
 /**
  * Parse URLs from the "Config" tab and sends it to the selected API
@@ -53,6 +61,27 @@ function callCrUX() {
  */
 function callCrUXHistory() {
   performTasks("CrUX History")
+}
+
+/**
+ * Call performTasks for Green Domain Dataset
+ */
+function callGreenDomain() {
+  performTasks("Green Domain")
+}
+
+/**
+ * Call performTasks for Accessibility
+ */
+function callAccessibility() {
+  performTasks("Accessibility")
+}
+
+/**
+ * Call performTasks for Sustainability
+ */
+function callSustainability() {
+  performTasks("Sustainability")
 }
 
 
@@ -89,13 +118,53 @@ function runBatchCrUX() {
 }
 
 
+/**
+ * Simple runBatch function to be called by trigger
+ */
+function runBatchGreenDomain() {
+  runBatch("Green Domain")
+}
+
+/**
+ * Simple runBatch function to be called by trigger
+ */
+function runBatchAccessibility() {
+  runBatch("Accessibility")
+}
+
+
+/**
+ * Simple runBatch function to be called by trigger
+ */
+function runBatchSustainability() {
+  runBatch("Sustainability")
+}
+
+
 
 
 /**
  * Parse URLs from the "Config" tab and sends it to the selected API
  */
 function performTasks(api = "PSI", save_screenshot = false) {
-    // Add the loading symbols 
+
+    // Show a warning that the data will be send to a 3P that might collect information
+    if(api == "Green Domain"){
+      if(showAlertCallGWF()){
+        // if permission declined, abort.
+        return true;
+      }
+    }
+
+    // Show a warning that the data will be send to a 3P that might collect information
+    if(api == "Sustainability"){
+      if(showAlertSustainability()){
+        // if permission declined, abort.
+        return true;
+      }
+    }
+
+    // Add the loading symbols and initialise a blank state
     initURLStatus();
     // Run batches
     const execution_mode_boolean = CONFIG_SHEET.getRange("B24").getValue();
@@ -132,6 +201,24 @@ function performTasks(api = "PSI", save_screenshot = false) {
       }
       else if(api == "CrUX History"){
         ScriptApp.newTrigger('runBatchCrUXHistory')
+          .timeBased()
+          .everyMinutes(TIME_BETWEEN_BATCHES)
+          .create();
+      }
+      else if(api == "Green Domain"){
+        ScriptApp.newTrigger('runBatchGreenDomain')
+          .timeBased()
+          .everyMinutes(TIME_BETWEEN_BATCHES)
+          .create();
+      }
+      else if(api == "Accessibility"){
+        ScriptApp.newTrigger('runBatchAccessibility')
+          .timeBased()
+          .everyMinutes(TIME_BETWEEN_BATCHES)
+          .create();
+      }
+      else if(api == "Sustainability"){
+        ScriptApp.newTrigger('runBatchSustainability')
           .timeBased()
           .everyMinutes(TIME_BETWEEN_BATCHES)
           .create();
@@ -218,6 +305,9 @@ function runBatch(api = "PSI", save_screenshot = false){
     if(api == "PSI"){urls = batch.map(d=>(newPSIRequest(d.url,d.device)))}
     if(api == "CrUX"){urls = batch.map(d=>(newCrUXRequest(d.url,d.device, d.origin)))}
     if(api == "CrUX History"){urls = batch.map(d=>(newCrUXHistoryRequest(d.url,d.device, d.origin)))}
+    if(api == "Green Domain"){urls = batch.map(d=>(newGWFRequest(d.url)))}
+    if(api == "Accessibility"){urls = batch.map(d=>(newPSIRequest(d.url)))}
+    if(api == "Sustainability"){urls = batch.map(d=>(newPSIRequest(d.url)))}
     Logger.log(urls)
 
     // Use UrlFetchApp to GET those URLs in a batch
@@ -262,9 +352,27 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
     if(api == "PSI"){fields = fields.filter(d=>d.method == "PSI API")}
     if(api == "CrUX"){fields = fields.filter(d=>d.method == "CrUX")}
     if(api == "CrUX History"){fields = fields.filter(d=>d.method == "CrUX History")}
+    if(api == "Green Domain"){fields = fields.filter(d=>d.method == "Green Domain")}
+    if(api == "Accessibility"){fields = fields.filter(d=>d.method == "Accessibility")}
+    let green_domains = [];
+    if(api == "Sustainability"){
+      fields = fields.filter(d=>d.method == "Sustainability")
+      green_domains = SpreadsheetApp
+                        .getActiveSpreadsheet()
+                        .getSheetByName("Green Domains (GWF)")
+                        .getRange("F2:J")
+                        .getValues()
+                        .filter(d=>d[4]==true)
+                        .map(d=>d[0])
+      Logger.log("GREEN DOMAINS")
+      Logger.log(green_domains)  
+    }
+
 
     // STEP 2: We iterate through all the fields
     for (let i = 0; i < fetch.length; i++) {
+        let fields_for_debug = [new Date().toISOString().slice(0, 10), batch[i].label, batch[i].url, batch[i].device, batch[i].origin];
+        let debug = "";
         // Indicate that we worked on that row in the Config tab
         sheet.getRange(batch[i].id+1,COLUMN_STATUS+1).setValue("✅")
         // Read and parse the data for that specific cakk
@@ -279,12 +387,18 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
         catch(e){
           sheet.getRange(batch[i].id+1,COLUMN_STATUS+1).setValue("🟥")
           sheet.getRange(batch[i].id+1,COLUMN_STATUS+1).setNote("Error " + e.toString() + "\n\nFull error:\n" + JSON.stringify(data));
+          debug += "🟥 " + "Error " + e.toString() + "\n\nFull error:\n" + JSON.stringify(data) + " | " 
+          fields_for_debug.push(debug)
+          DEBUG_SHEET.appendRow(fields_for_debug);
         }
         Logger.log(content)
         // If an error occured, flagged it in the Config tab, under the Status
         if(content["error"]){
             sheet.getRange(batch[i].id+1,COLUMN_STATUS+1).setValue("❌")
             sheet.getRange(batch[i].id+1,COLUMN_STATUS+1).setNote("Error " + JSON.stringify(content["error"]))
+            debug += "❌ " + "Error " + JSON.stringify(content["error"]) + " | " 
+            fields_for_debug.push(debug)
+            DEBUG_SHEET.appendRow(fields_for_debug);
         }
         else{
             // Build a dic that will contain all the extracted information
@@ -300,14 +414,17 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                 try{
                     // Origin field is used in some calls to know if there was no URL-level data and we reverted to Origin level
                     let origin = batch[i].origin;
+                    let green_domains_ = green_domains;
                     // Eval the formula, for example "content["lighthouseResult"]["lighthouseVersion"]"
                     let value = eval(fields[j].data)
                     // Add it to our dic
                     output[fields[j].field] = value
                 }
                 catch(e){
-                    // If error, write it in placce
-                    output[fields[j].field] = "Error " + JSON.stringify(e.toString())
+                    // If error, write it in placce -> we ultimately decided to leave it blank instead as it was breaking dashboarding down the line
+                    // output[fields[j].field] = "Error " + JSON.stringify(e.toString())
+                    output[fields[j].field] = ""
+                    debug += "❗️ Error on " + fields[j].field + JSON.stringify(e.toString()) + " | " 
                 }
             }
             Logger.log(output);
@@ -325,7 +442,10 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                   array.push(output[dimension])
                 }
                 else{
-                  array.push("No data")
+                  // We ultimately decided to leave blank columns without data and leave the details in the debugging.
+                  // array.push("No data")
+                  array.push("")
+                  debug += "💢 Error on " + dimension.toString() + " - No data" + " | " 
                 }
               }
               // Append the array at the end of "Results"
@@ -344,6 +464,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                 }
                 else{
                   array.push("")
+                  // Not debugging this
+                  // debug += "💢 Error on " + dimension.toString() + " - No data" + " | " 
                 }
               }
               // Append the array at the end of "Results"
@@ -359,7 +481,7 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                   // Go through all the Dimensions listed in the header and build the array
                   for (let k = 0; k < results_header[0].length; k++){
                     let dimension = results_header[0][k];
-                    if(["Label", "URL", "Device", "URL / Origin"].indexOf(dimension) != -1 && dimension in output){
+                    if(["Label", "URL", "Device", "URL / Origin", "CrUX URL"].indexOf(dimension) != -1 && dimension in output){
                       array.push(output[dimension])
                     }
                     else if(dimension in output){
@@ -367,6 +489,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                     }
                     else{
                       array.push("")
+                      // Not debugging this
+                      // debug += "💢 Error on " + dimension.toString() + " - No data" + " | " 
                     }
                   }
                   // Append the array at the end of "Results"
@@ -374,6 +498,68 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                 }
               }
             }
+            else if(api == "Green Domain"){
+              let sheet_results = GREEN_DOMAIN_SHEET;
+              let results_header = GREEN_DOMAIN_HEADER;
+              // We translate the dic output to an array row based on indexes found in "Results"
+              let array = [];
+              // Go through all the Dimensions listed in the header and build the array
+              for (let k = 0; k < results_header[0].length; k++){
+                let dimension = results_header[0][k];
+                if(dimension in output){
+                  array.push(output[dimension])
+                }
+                else{
+                  array.push("")
+                  debug += "💢 Error on " + dimension.toString() + " - No data" + " | " 
+                }
+              }
+              // Append the array at the end of "Results"
+              sheet_results.appendRow(array)
+            }
+            else if(api == "Accessibility"){
+              let sheet_results = ACCESSIBILITY_SHEET;
+              let results_header = ACCESSIBILITY_SHEET_HEADER;
+              // We translate the dic output to an array row based on indexes found in "Results"
+              let array = [];
+              // Go through all the Dimensions listed in the header and build the array
+              for (let k = 0; k < results_header[0].length; k++){
+                let dimension = results_header[0][k];
+                if(dimension in output){
+                  array.push(output[dimension])
+                }
+                else{
+                  // We ultimately decided to leave blank columns without data and leave the details in the debugging.
+                  // array.push("No data")
+                  array.push("")
+                  debug += "💢 Error on " + dimension.toString() + " - No data" + " | " 
+                }
+              }
+              // Append the array at the end of "Results"
+              sheet_results.appendRow(array)
+            }
+            else if(api == "Sustainability"){
+              let sheet_results = SUSTAINABILITY_SHEET;
+              let results_header = SUSTAINABILITY_SHEET_HEADER;
+              // We translate the dic output to an array row based on indexes found in "Results"
+              let array = [];
+              // Go through all the Dimensions listed in the header and build the array
+              for (let k = 0; k < results_header[0].length; k++){
+                let dimension = results_header[0][k];
+                if(dimension in output){
+                  array.push(output[dimension])
+                }
+                else{
+                  // We ultimately decided to leave blank columns without data and leave the details in the debugging.
+                  // array.push("No data")
+                  array.push("")
+                  debug += "💢 Error on " + dimension.toString() + " - No data" + " | " 
+                }
+              }
+              // Append the array at the end of "Results"
+              sheet_results.appendRow(array)
+            }
+
 
             // STEP 4. SCREENSHOTS
             if(save_screenshot){
@@ -404,6 +590,56 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
               //   sheet_screenshots.getRange(last_screenshot_row, k+10+2).setValue(ic);
               // }
             }
+
+            // STEP 5. Debug
+            if(debug != ''){
+              fields_for_debug.push(debug)
+              DEBUG_SHEET.appendRow(fields_for_debug);
+            }
         }
     }
 }
+
+
+// function crawlSitemap(){
+//     let sheet = CONFIG_SHEET;
+//     let SITEMAP_URL = sheet.getRange("B39").getValue();
+//     Logger.log(SITEMAP_URL)
+
+//     let queue = [SITEMAP_URL]
+//     while(queue.length > 0){
+//       let current_url = queue.pop();
+//       Logger.log(current_url)
+//       Logger.log(queue)
+//       var xml = UrlFetchApp.fetchAll([current_url]).getContentText();
+//       Logger.log(xml)
+//       var document = XmlService.parse(xml);
+//       var root = document.getRootElement();
+//     }
+// }
+
+
+
+/**
+ * For each URLs correctly executed, remove the "Active" status, handy to perform only the URLs that failed.
+ */
+function uncheckDoneURLs(){
+    toast("Removing checks where we have a ✅ sign","Removing succesful previous executions.");
+    removeBatchTriggers();
+    let sheet = CONFIG_SHEET;
+    let last_row = sheet.getLastRow();
+    let last_column = sheet.getLastColumn();
+    let values = sheet.getRange(1, 1, last_row, last_column).getValues();
+    // Go line by line of all URLs and change value and note
+    for (let i = 1; i < values.length; i++) {
+        const done = values[i][8]; 
+        if(done == "✅"){
+          sheet.getRange(i+1,COLUMN_STATUS).setValue("")
+        }
+    }
+    SpreadsheetApp.flush();
+}
+
+
+
+

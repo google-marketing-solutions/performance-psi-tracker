@@ -67,6 +67,6 @@ To get a key:
 ### Setting up the Tracker
 
 Once you have your API key for PSI, make a copy of
-https://docs.google.com/spreadsheets/d/1yEJEykmgPnz8YIKBlXZFFwlt8F7uFxAhZOEs-EBQKOE/edit?resourcekey=0-hR6O3nPoOo5y10dSLXJjrw#gid=0
+https://docs.google.com/spreadsheets/d/1gxkMI1eXT77berQKyFLxXnCaLC_wXDhJJOuF95J3vSE/edit?resourcekey=0-k3uEeaIHcqFKBPZ2CK81CA#gid=0
 and follow the instructions on the config tab.
 

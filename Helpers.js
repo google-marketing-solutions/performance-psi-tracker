@@ -134,10 +134,22 @@ function resetURLsToDefault(){
  * Delete all the data in Results tab
  */
 function deleteData(){
-  let last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results").getLastRow();
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results").deleteRows(3,last_row+1-3)
-  last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots").getLastRow();
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots").deleteRows(3,last_row+1-3)
+  // // Results
+  // let last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results").getLastRow();
+  // SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results").deleteRows(3,last_row+1-3)
+  // // Screenshots
+  // last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots").getLastRow();
+  // SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots").deleteRows(3,last_row+1-3)
+
+  let sheets = ["Results", "Screenshots", "Debug", "Accessibility", "Green Domains (GWF)", "Sustainability"]
+  for(let i = 0; i < sheets.length; i++){
+    let sheet_name = sheets[i]
+    let last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name).getLastRow();
+    if(last_row >= 5){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name).deleteRows(3,last_row+1-3)
+    }
+  }
+
 }
 
 /**
@@ -156,6 +168,52 @@ function timePerformance() {
 }
 
 
+
+/**
+ * Show an alert that we will call a 3P if the API is Green Domains
+ */
+function showAlertCallGWF() {
+  var ui = SpreadsheetApp.getUi(); // Same variations.
+  var result = ui.alert(
+     'Please confirm',
+     "Carbon's usage will be done through the use of services such as the Green Web Foundation’s Green Web Dataset. Those calls will send queries to The Green Web Foundation's dataset of green domains containing the information in this spreadsheet. Check https://developers.thegreenwebfoundation.org/api/greencheck/v3/check-single-domain/ for details. Do you still want to proceed?",
+      ui.ButtonSet.YES_NO);
+
+  // Process the user's response.
+  if (result == ui.Button.YES) {
+    // User clicked "Yes".
+    // ui.alert('Confirmation received.'); 
+    return false;
+  } else {
+    // User clicked "No" or X in the title bar.
+    ui.alert('Permission denied. Aborting'); 
+    return true;
+  }
+}
+
+
+
+/**
+ * Show an alert that we will call a 3P if the API is Green Domains
+ */
+function showAlertSustainability() {
+  var ui = SpreadsheetApp.getUi(); // Same variations.
+  var result = ui.alert(
+     'Please confirm',
+     "Carbon's usage will be done through the use of services such as CO2.js. This action will run the different models in CO2.js taking into account the results of PSI Tracker. Please run Green Domains API first otherwise the model will assume that the domains are not green hosted. Do you want to continue?",
+      ui.ButtonSet.YES_NO);
+
+  // Process the user's response.
+  if (result == ui.Button.YES) {
+    // User clicked "Yes".
+    // ui.alert('Confirmation received.'); 
+    return false;
+  } else {
+    // User clicked "No" or X in the title bar.
+    ui.alert('Permission denied. Aborting'); 
+    return true;
+  }
+}
 
 
 
