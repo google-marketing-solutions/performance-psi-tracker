@@ -1,8 +1,15 @@
 /**
  * Add a toast on the bottom right corner indicating status
  */
-function toast(title="Message", description="Description"){
+function toast(title, description){
   SpreadsheetApp.getActive().toast(description, title, -1);
+}
+
+/**
+ * Shows a demo toast in the UI to demonstrate how the modal looks
+ */
+function toastDemo(){
+  toast("Message","Description")
 }
 
 
@@ -28,7 +35,7 @@ function setDailyTrigger() {
     PropertiesService.getDocumentProperties().setProperty(
         'triggerId', trigger.getUniqueId());
   }
-  toast("Trigger","Done")
+  toast("PSI Trigger","Done")
 }
 
 
@@ -48,7 +55,7 @@ function setCrUXDailyTrigger() {
     PropertiesService.getDocumentProperties().setProperty(
         'triggerId', trigger.getUniqueId());
   }
-  toast("Trigger","Done")
+  toast("CrUX Trigger","Done")
 }
 
 
@@ -134,13 +141,6 @@ function resetURLsToDefault(){
  * Delete all the data in Results tab
  */
 function deleteData(){
-  // // Results
-  // let last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results").getLastRow();
-  // SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Results").deleteRows(3,last_row+1-3)
-  // // Screenshots
-  // last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots").getLastRow();
-  // SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Screenshots").deleteRows(3,last_row+1-3)
-
   let sheets = ["Results", "Screenshots", "Debug", "Accessibility", "Green Domains (GWF)", "Sustainability"]
   for(let i = 0; i < sheets.length; i++){
     let sheet_name = sheets[i]
@@ -170,9 +170,10 @@ function timePerformance() {
 
 
 /**
- * Show an alert that we will call a 3P if the API is Green Domains
+ * Show a confirmation modal indicating that we will call a 3P. 
+ * User can Proceed "YES" or Abord "NO" when asked if they want to proceed
  */
-function showAlertCallGWF() {
+function showConfirmationModalCallGWF() {
   var ui = SpreadsheetApp.getUi(); // Same variations.
   var result = ui.alert(
      'Please confirm',
@@ -194,9 +195,9 @@ function showAlertCallGWF() {
 
 
 /**
- * Show an alert that we will call a 3P if the API is Green Domains
+ * Show a confirmation modal indicating that we will call a 3P if the API is Green Domains
  */
-function showAlertSustainability() {
+function showConfirmationModalSustainability() {
   var ui = SpreadsheetApp.getUi(); // Same variations.
   var result = ui.alert(
      'Please confirm',

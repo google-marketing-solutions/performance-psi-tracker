@@ -150,7 +150,7 @@ function performTasks(api = "PSI", save_screenshot = false) {
 
     // Show a warning that the data will be send to a 3P that might collect information
     if(api == "Green Domain"){
-      if(showAlertCallGWF()){
+      if(showConfirmationModalCallGWF()){
         // if permission declined, abort.
         return true;
       }
@@ -158,7 +158,7 @@ function performTasks(api = "PSI", save_screenshot = false) {
 
     // Show a warning that the data will be send to a 3P that might collect information
     if(api == "Sustainability"){
-      if(showAlertSustainability()){
+      if(showConfirmationModalSustainability()){
         // if permission declined, abort.
         return true;
       }
@@ -377,7 +377,6 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
         sheet.getRange(batch[i].id+1,COLUMN_STATUS+1).setValue("✅")
         // Read and parse the data for that specific cakk
         const data = fetch[i];
-        Logger.log(data)
         let content = {};
         // Try to parse the answer from the API
         try{
@@ -436,8 +435,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
               // We translate the dic output to an array row based on indexes found in "Results"
               let array = [];
               // Go through all the Dimensions listed in the header and build the array
-              for (let k = 0; k < results_header[0].length; k++){
-                let dimension = results_header[0][k];
+              for (let j = 0; j < results_header[0].length; j++){
+                let dimension = results_header[0][j];
                 if(dimension in output){
                   array.push(output[dimension])
                 }
@@ -457,8 +456,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
               // We translate the dic output to an array row based on indexes found in "Results"
               let array = [];
               // Go through all the Dimensions listed in the header and build the array
-              for (let k = 0; k < results_header[0].length; k++){
-                let dimension = results_header[0][k];
+              for (let j = 0; j < results_header[0].length; j++){
+                let dimension = results_header[0][j];
                 if(dimension in output){
                   array.push(output[dimension])
                 }
@@ -479,8 +478,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
                   // We translate the dic output to an array row based on indexes found in "Results"
                   let array = [];
                   // Go through all the Dimensions listed in the header and build the array
-                  for (let k = 0; k < results_header[0].length; k++){
-                    let dimension = results_header[0][k];
+                  for (let j = 0; j < results_header[0].length; j++){
+                    let dimension = results_header[0][j];
                     if(["Label", "URL", "Device", "URL / Origin", "CrUX URL"].indexOf(dimension) != -1 && dimension in output){
                       array.push(output[dimension])
                     }
@@ -504,8 +503,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
               // We translate the dic output to an array row based on indexes found in "Results"
               let array = [];
               // Go through all the Dimensions listed in the header and build the array
-              for (let k = 0; k < results_header[0].length; k++){
-                let dimension = results_header[0][k];
+              for (let j = 0; j < results_header[0].length; j++){
+                let dimension = results_header[0][j];
                 if(dimension in output){
                   array.push(output[dimension])
                 }
@@ -523,8 +522,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
               // We translate the dic output to an array row based on indexes found in "Results"
               let array = [];
               // Go through all the Dimensions listed in the header and build the array
-              for (let k = 0; k < results_header[0].length; k++){
-                let dimension = results_header[0][k];
+              for (let j = 0; j < results_header[0].length; j++){
+                let dimension = results_header[0][j];
                 if(dimension in output){
                   array.push(output[dimension])
                 }
@@ -544,8 +543,8 @@ function parseResults(api, fetch, batch, sheet, save_screenshot = false){
               // We translate the dic output to an array row based on indexes found in "Results"
               let array = [];
               // Go through all the Dimensions listed in the header and build the array
-              for (let k = 0; k < results_header[0].length; k++){
-                let dimension = results_header[0][k];
+              for (let j = 0; j < results_header[0].length; j++){
+                let dimension = results_header[0][j];
                 if(dimension in output){
                   array.push(output[dimension])
                 }
@@ -633,7 +632,7 @@ function uncheckDoneURLs(){
     // Go line by line of all URLs and change value and note
     for (let i = 1; i < values.length; i++) {
         const done = values[i][8]; 
-        if(done == "✅"){
+        if(done === "✅"){
           sheet.getRange(i+1,COLUMN_STATUS).setValue("")
         }
     }
