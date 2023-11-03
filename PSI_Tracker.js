@@ -306,8 +306,8 @@ function runBatch(api = "PSI", save_screenshot = false){
     if(api == "CrUX"){urls = batch.map(d=>(newCrUXRequest(d.url,d.device, d.origin)))}
     if(api == "CrUX History"){urls = batch.map(d=>(newCrUXHistoryRequest(d.url,d.device, d.origin)))}
     if(api == "Green Domain"){urls = batch.map(d=>(newGWFRequest(d.url)))}
-    if(api == "Accessibility"){urls = batch.map(d=>(newPSIRequest(d.url)))}
-    if(api == "Sustainability"){urls = batch.map(d=>(newPSIRequest(d.url)))}
+    if(api == "Accessibility"){urls = batch.map(d=>(newPSIRequest(d.url,"MOBILE")))}
+    if(api == "Sustainability"){urls = batch.map(d=>(newPSIRequest(d.url,"MOBILE")))}
     Logger.log(urls)
 
     // Use UrlFetchApp to GET those URLs in a batch
