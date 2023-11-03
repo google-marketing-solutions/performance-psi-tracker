@@ -17,7 +17,7 @@ function newGWFRequest(url){
   }
   const GWF_ENDPOINT = "https://api.thegreenwebfoundation.org/api/v3/greencheck/";
   return {
-  'url': GWF_ENDPOINT += origin_regex,
+  'url': GWF_ENDPOINT + origin_regex,
   'muteHttpExceptions': true,
 }
 }
