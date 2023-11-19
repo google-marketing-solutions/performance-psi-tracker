@@ -1,23 +1,22 @@
 /**
  * Add a toast on the bottom right corner indicating status
  */
-function toast(title, description){
+function toast(title, description) {
   SpreadsheetApp.getActive().toast(description, title, -1);
 }
 
 /**
  * Shows a demo toast in the UI to demonstrate how the modal looks
  */
-function toastDemo(){
-  toast("Message","Description")
+function toastDemo() {
+  toast("Message", "Description");
 }
-
 
 /**
  * Dummy function to be able to click the Initialize button (UX feedback that having to double click to activate the features is suboptimal)
  */
-function initialise(){
-  toast("Initialised","Done")
+function initialise() {
+  toast("Initialised", "Done");
 }
 
 /**
@@ -25,39 +24,42 @@ function initialise(){
  *
  */
 function setDailyTrigger() {
-  deleteTriggers('callPSIAPI');
-  const triggerId = PropertiesService.getDocumentProperties().getProperty('triggerId');
+  deleteTriggers("callPSIAPI");
+  const triggerId =
+    PropertiesService.getDocumentProperties().getProperty("triggerId");
   if (!triggerId) {
-    const trigger = ScriptApp.newTrigger('callPSIAPI')
-                        .timeBased()
-                        .everyDays(1)
-                        .create();
+    const trigger = ScriptApp.newTrigger("callPSIAPI")
+      .timeBased()
+      .everyDays(1)
+      .create();
     PropertiesService.getDocumentProperties().setProperty(
-        'triggerId', trigger.getUniqueId());
+      "triggerId",
+      trigger.getUniqueId()
+    );
   }
-  toast("PSI Trigger","Done")
+  toast("PSI Trigger", "Done");
 }
-
-
 
 /**
  * Sets the trigger to run the CrUX API every day.
  *
  */
 function setCrUXDailyTrigger() {
-  deleteTriggers('callCrUX');
-  const triggerId = PropertiesService.getDocumentProperties().getProperty('triggerId');
+  deleteTriggers("callCrUX");
+  const triggerId =
+    PropertiesService.getDocumentProperties().getProperty("triggerId");
   if (!triggerId) {
-    const trigger = ScriptApp.newTrigger('callCrUX')
-                        .timeBased()
-                        .everyDays(1)
-                        .create();
+    const trigger = ScriptApp.newTrigger("callCrUX")
+      .timeBased()
+      .everyDays(1)
+      .create();
     PropertiesService.getDocumentProperties().setProperty(
-        'triggerId', trigger.getUniqueId());
+      "triggerId",
+      trigger.getUniqueId()
+    );
   }
-  toast("CrUX Trigger","Done")
+  toast("CrUX Trigger", "Done");
 }
-
 
 /**
  * Builds the main menu when opening the spreadsheet.
@@ -68,29 +70,28 @@ function setCrUXDailyTrigger() {
 function onOpen() {
   const menuEntries = [
     {
-      name: 'Authorize script',
-      functionName: 'initialise',
+      name: "Authorize script",
+      functionName: "initialise",
     },
     {
-      name: 'Call PSI API',
-      functionName: 'callPSIAPI',
+      name: "Call PSI API",
+      functionName: "callPSIAPI",
     },
     {
-      name: 'Set daily trigger',
-      functionName: 'setDailyTrigger',
+      name: "Set daily trigger",
+      functionName: "setDailyTrigger",
     },
     {
-      name: 'Run CrUX History',
-      functionName: 'callCrUXHistory',
+      name: "Run CrUX History",
+      functionName: "callCrUXHistory",
     },
     {
-      name: 'Call PSI/Screenshots',
-      functionName: 'callPSIAPIWithScreenshots',
-    }
+      name: "Call PSI/Screenshots",
+      functionName: "callPSIAPIWithScreenshots",
+    },
   ];
-  SpreadsheetApp.getActive().addMenu('PSI Tracker', menuEntries);
+  SpreadsheetApp.getActive().addMenu("PSI Tracker", menuEntries);
 }
-
 
 /**
  * Removes triggers by handler function.
@@ -111,45 +112,68 @@ function deleteTriggers(functionName) {
 /**
  * Remove Batch Triggers
  */
-function removeBatchTriggers(){
-  deleteTriggers('runBatch');
-  deleteTriggers('runBatchPSI');
-  deleteTriggers('runBatchPSIWithScreenshots');
-  deleteTriggers('runBatchCrUXHistory');
-  deleteTriggers('runBatchCrUX');
+function removeBatchTriggers() {
+  deleteTriggers("runBatch");
+  deleteTriggers("runBatchPSI");
+  deleteTriggers("runBatchPSIWithScreenshots");
+  deleteTriggers("runBatchCrUXHistory");
+  deleteTriggers("runBatchCrUX");
 }
-
 
 /**
  * Get a simple value for tests
  */
-function quickTestForValue(){
-  Logger.log(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config").getRange("B26").getValue())
+function quickTestForValue() {
+  Logger.log(
+    SpreadsheetApp.getActiveSpreadsheet()
+      .getSheetByName("Config")
+      .getRange("B26")
+      .getValue()
+  );
 }
-
-
 
 /**
  * Resets the Spreadsheet to default values
  */
-function resetURLsToDefault(){
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config").getRange("D2:I").deleteCells(SpreadsheetApp.Dimension.ROWS)
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Config").getRange("D2:H7").setValues(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("web.dev Websites").getRange("A2:E7").getValues());
+function resetURLsToDefault() {
+  SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName("Config")
+    .getRange("D2:I")
+    .deleteCells(SpreadsheetApp.Dimension.ROWS);
+  SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName("Config")
+    .getRange("D2:H7")
+    .setValues(
+      SpreadsheetApp.getActiveSpreadsheet()
+        .getSheetByName("web.dev Websites")
+        .getRange("A2:E7")
+        .getValues()
+    );
 }
 
 /**
  * Delete all the data in Results tab
  */
-function deleteData(){
-  let sheets = ["Results", "Screenshots", "Debug", "Accessibility", "Green Domains (GWF)", "Sustainability"]
-  for(let i = 0; i < sheets.length; i++){
-    let sheet_name = sheets[i]
-    let last_row = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name).getLastRow();
-    if(last_row >= 5){
-      SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name).deleteRows(3,last_row+1-3)
+function deleteData() {
+  let sheets = [
+    "Results",
+    "Screenshots",
+    "Debug",
+    "Accessibility",
+    "Green Domains (GWF)",
+    "Sustainability",
+  ];
+  for (let i = 0; i < sheets.length; i++) {
+    let sheet_name = sheets[i];
+    let last_row = SpreadsheetApp.getActiveSpreadsheet()
+      .getSheetByName(sheet_name)
+      .getLastRow();
+    if (last_row >= 5) {
+      SpreadsheetApp.getActiveSpreadsheet()
+        .getSheetByName(sheet_name)
+        .deleteRows(3, last_row + 1 - 3);
     }
   }
-
 }
 
 /**
@@ -158,41 +182,41 @@ function deleteData(){
 function timePerformance() {
   var startTime = new Date();
   // Trigger a change in the sheet, for example, write to a cell
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Results').getRange('G2').setValue(Math.random());
+  SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName("Results")
+    .getRange("G2")
+    .setValue(Math.random());
   SpreadsheetApp.flush(); // Apply all pending changes immediately
   var endTime = new Date();
-  
+
   var executionTime = endTime - startTime;
   Logger.log("Execution Time: " + executionTime + " ms");
   toast("Execution Time: " + executionTime + " ms");
 }
 
-
-
 /**
- * Show a confirmation modal indicating that we will call a 3P. 
+ * Show a confirmation modal indicating that we will call a 3P.
  * User can Proceed "YES" or Abord "NO" when asked if they want to proceed
  */
 function showConfirmationModalCallGWF() {
   var ui = SpreadsheetApp.getUi(); // Same variations.
   var result = ui.alert(
-     'Please confirm',
-     "Carbon's usage will be done through the use of services such as the Green Web Foundation’s Green Web Dataset. Those calls will send queries to The Green Web Foundation's dataset of green domains containing the information in this spreadsheet. Check https://developers.thegreenwebfoundation.org/api/greencheck/v3/check-single-domain/ for details. Do you still want to proceed?",
-      ui.ButtonSet.YES_NO);
+    "Please confirm",
+    "Carbon's usage will be done through the use of services such as the Green Web Foundation’s Green Web Dataset. Those calls will send queries to The Green Web Foundation's dataset of green domains containing the information in this spreadsheet. Check https://developers.thegreenwebfoundation.org/api/greencheck/v3/check-single-domain/ for details. Do you still want to proceed?",
+    ui.ButtonSet.YES_NO
+  );
 
   // Process the user's response.
   if (result == ui.Button.YES) {
     // User clicked "Yes".
-    // ui.alert('Confirmation received.'); 
+    // ui.alert('Confirmation received.');
     return false;
   } else {
     // User clicked "No" or X in the title bar.
-    ui.alert('Permission denied. Aborting'); 
+    ui.alert("Permission denied. Aborting");
     return true;
   }
 }
-
-
 
 /**
  * Show a confirmation modal indicating that we will call a 3P if the API is Green Domains
@@ -200,25 +224,42 @@ function showConfirmationModalCallGWF() {
 function showConfirmationModalSustainability() {
   var ui = SpreadsheetApp.getUi(); // Same variations.
   var result = ui.alert(
-     'Please confirm',
-     "Carbon's usage will be done through the use of services such as CO2.js. This action will run the different models in CO2.js taking into account the results of PSI Tracker. Please run Green Domains API first otherwise the model will assume that the domains are not green hosted. Do you want to continue?",
-      ui.ButtonSet.YES_NO);
+    "Please confirm",
+    "Carbon's usage will be done through the use of services such as CO2.js. This action will run the different models in CO2.js taking into account the results of PSI Tracker. Please run Green Domains API first otherwise the model will assume that the domains are not green hosted. Do you want to continue?",
+    ui.ButtonSet.YES_NO
+  );
 
   // Process the user's response.
   if (result == ui.Button.YES) {
     // User clicked "Yes".
-    // ui.alert('Confirmation received.'); 
+    // ui.alert('Confirmation received.');
     return false;
   } else {
     // User clicked "No" or X in the title bar.
-    ui.alert('Permission denied. Aborting'); 
+    ui.alert("Permission denied. Aborting");
     return true;
   }
 }
 
-
-
-
-
-
-
+/**
+ * For each URLs correctly executed, remove the "Active" status, handy to perform only the URLs that failed.
+ */
+function uncheckDoneURLs() {
+  toast(
+    "Removing checks where we have a ✅ sign",
+    "Removing succesful previous executions."
+  );
+  removeBatchTriggers();
+  let sheet = CONFIG_SHEET;
+  let last_row = sheet.getLastRow();
+  let last_column = sheet.getLastColumn();
+  let values = sheet.getRange(1, 1, last_row, last_column).getValues();
+  // Go line by line of all URLs and change value and note
+  for (let i = 1; i < values.length; i++) {
+    const done = values[i][8];
+    if (done === "✅") {
+      sheet.getRange(i + 1, COLUMN_STATUS).setValue("");
+    }
+  }
+  SpreadsheetApp.flush();
+}
