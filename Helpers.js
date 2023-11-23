@@ -155,7 +155,7 @@ function resetURLsToDefault() {
  * Delete all the data in Results tab
  */
 function deleteData() {
-  let sheets = [
+  const sheets = [
     "Results",
     "Screenshots",
     "Debug",
@@ -163,9 +163,8 @@ function deleteData() {
     "Green Domains (GWF)",
     "Sustainability",
   ];
-  for (let i = 0; i < sheets.length; i++) {
-    let sheet_name = sheets[i];
-    let last_row = SpreadsheetApp.getActiveSpreadsheet()
+  for (const sheet_name of sheets){
+    const last_row = SpreadsheetApp.getActiveSpreadsheet()
       .getSheetByName(sheet_name)
       .getLastRow();
     if (last_row >= 5) {
@@ -177,37 +176,19 @@ function deleteData() {
 }
 
 /**
- * Helper to understand the time it takes the Spreadsheet to flush
- */
-function timePerformance() {
-  var startTime = new Date();
-  // Trigger a change in the sheet, for example, write to a cell
-  SpreadsheetApp.getActiveSpreadsheet()
-    .getSheetByName("Results")
-    .getRange("G2")
-    .setValue(Math.random());
-  SpreadsheetApp.flush(); // Apply all pending changes immediately
-  var endTime = new Date();
-
-  var executionTime = endTime - startTime;
-  Logger.log("Execution Time: " + executionTime + " ms");
-  toast("Execution Time: " + executionTime + " ms");
-}
-
-/**
  * Show a confirmation modal indicating that we will call a 3P.
  * User can Proceed "YES" or Abord "NO" when asked if they want to proceed
  */
 function showConfirmationModalCallGWF() {
-  var ui = SpreadsheetApp.getUi(); // Same variations.
-  var result = ui.alert(
+  const ui = SpreadsheetApp.getUi(); // Same variations.
+  const result = ui.alert(
     "Please confirm",
     "Carbon's usage will be done through the use of services such as the Green Web Foundation’s Green Web Dataset. Those calls will send queries to The Green Web Foundation's dataset of green domains containing the information in this spreadsheet. Check https://developers.thegreenwebfoundation.org/api/greencheck/v3/check-single-domain/ for details. Do you still want to proceed?",
     ui.ButtonSet.YES_NO
   );
 
   // Process the user's response.
-  if (result == ui.Button.YES) {
+  if (result === ui.Button.YES) {
     // User clicked "Yes".
     // ui.alert('Confirmation received.');
     return false;
@@ -222,15 +203,15 @@ function showConfirmationModalCallGWF() {
  * Show a confirmation modal indicating that we will call a 3P if the API is Green Domains
  */
 function showConfirmationModalSustainability() {
-  var ui = SpreadsheetApp.getUi(); // Same variations.
-  var result = ui.alert(
+  const ui = SpreadsheetApp.getUi(); // Same variations.
+  const result = ui.alert(
     "Please confirm",
     "Carbon's usage will be done through the use of services such as CO2.js. This action will run the different models in CO2.js taking into account the results of PSI Tracker. Please run Green Domains API first otherwise the model will assume that the domains are not green hosted. Do you want to continue?",
     ui.ButtonSet.YES_NO
   );
 
   // Process the user's response.
-  if (result == ui.Button.YES) {
+  if (result === ui.Button.YES) {
     // User clicked "Yes".
     // ui.alert('Confirmation received.');
     return false;
@@ -250,10 +231,10 @@ function uncheckDoneURLs() {
     "Removing succesful previous executions."
   );
   removeBatchTriggers();
-  let sheet = CONFIG_SHEET;
-  let last_row = sheet.getLastRow();
-  let last_column = sheet.getLastColumn();
-  let values = sheet.getRange(1, 1, last_row, last_column).getValues();
+  const sheet = CONFIG_SHEET;
+  const last_row = sheet.getLastRow();
+  const last_column = sheet.getLastColumn();
+  const values = sheet.getRange(1, 1, last_row, last_column).getValues();
   // Go line by line of all URLs and change value and note
   for (let i = 1; i < values.length; i++) {
     const done = values[i][8];
