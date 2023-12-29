@@ -21,15 +21,16 @@
 
 
 /**
- * Constructs a POST request for the Chrome User Experience Report API.
+ * Constructs a POST request for the Chrome User Experience Report History API.
+ * It is the same as the CrUX History, just the endpoint is different. 
  *
- * @param {string} url The URL or Origin to query the CrUX API for.
+ * @param {string} url The URL or Origin to query the CrUX History API for.
  * @param {string} deviceType The type of device ('MOBILE' or 'DESKTOP').
  * @param {string} mode Indicates whether to use 'URL' or 'Origin' for the query.
  * @return {Object} An object representing the POST request to be made.
  * @throws Will throw an error if inputs are invalid or the API key is missing or invalid.
  */
-function newCrUXRequest(url, deviceType, mode) {
+function newCrUXHistoryRequest(url, deviceType, mode) {
   // Input validation
   if (typeof url !== 'string' || url.trim() === '') {
     throw new Error('Invalid URL/Origin: Must be a non-empty string.');
@@ -70,7 +71,7 @@ function newCrUXRequest(url, deviceType, mode) {
 
   // Construct the POST request details
   const postRequest = {
-    url: 'https://chromeuxreport.googleapis.com/v1/records:queryRecord?key=' + apiKey,
+    url: 'https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord?key=' + apiKey,
     method: 'POST',
     payload: JSON.stringify(payload),
     muteHttpExceptions: true,
@@ -83,12 +84,12 @@ function newCrUXRequest(url, deviceType, mode) {
 }
 
 // Example usage
-function newCrUXRequestDemo() {
+function newCrUXHistoryRequestDemo() {
   try {
     const url = 'https://www.example.com'; // Replace with the actual URL/Origin
     const deviceType = 'MOBILE'; // or 'DESKTOP'
     const mode = 'URL'; // or 'Origin'
-    const postRequest = newCrUXRequest(url, deviceType, mode);
+    const postRequest = generateCrUXRequest(url, deviceType, mode);
     console.log('Constructed POST Request:', postRequest);
   } catch (error) {
     console.error('Test Failed:', error);
