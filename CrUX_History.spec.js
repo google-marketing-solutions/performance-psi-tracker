@@ -1,7 +1,7 @@
 /**
  * @copyright 2023 Google LLC
  *
- * @fileoverview Tests for the CrUX_Call functions.
+ * @fileoverview Tests for the CrUX_History functions.
  *
  * @license
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,15 +17,14 @@
  * limitations under the License.
  */
 
-const { default: test } = require('node:test');
-const CrUX_Call = require('./CrUX_Call');
+const CrUX_History = require('./CrUX_History');
 
-describe('CrUX_Call newCrUXRequest', () => {
+describe('CrUX_History newCrUXHistoryRequest', () => {
   const testURL = 'https://example.com';
   const apiKey = 'fakeapikey';
 
   const baseRequest = {
-    url: `https://chromeuxreport.googleapis.com/v1/records:queryRecord?key=${apiKey}`,
+    url: `https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord?key=${apiKey}`,
     method: 'POST',
     payload: {},
     muteHttpExceptions: true,
@@ -52,22 +51,22 @@ describe('CrUX_Call newCrUXRequest', () => {
     const want = baseRequest;
     for (const t of testData) {
       want.payload = JSON.stringify(t.wantedPayload);
-      expect(CrUX_Call.newCrUXRequest(testURL, t.formFactor, t.mode))
+      expect(CrUX_History.newCrUXHistoryRequest(testURL, t.formFactor, t.mode))
         .withContext(`${t.formFactor} : ${t.mode}`)
         .toEqual(want);
     }
   });
 
   it('throws when passed an empty URL', () => {
-    expect(() => {CrUX_Call.newCrUXRequest('', 'MOBILE', 'URL')}).toThrow();
+    expect(() => {CrUX_History.newCrUXHistoryRequest('', 'MOBILE', 'URL')}).toThrow();
   });
 
   it('throws when passed an invalid device type', () => {
-    expect(() => {CrUX_Call.newCrUXRequest(testURL, 'INVALID_DEVICE', 'URL')}).toThrow();
+    expect(() => {CrUX_History.newCrUXHistoryRequest(testURL, 'INVALID_DEVICE', 'URL')}).toThrow();
   });
 
   it('throws when the API key is empty', () => {
     jasmine.getGlobal().CONFIG_SHEET.getValue.and.returnValue('');
-    expect(() => {CrUX_Call.newCrUXRequest(testURL, 'MOBILE', 'URL')}).toThrow();
+    expect(() => {CrUX_History.newCrUXHistoryRequest(testURL, 'MOBILE', 'URL')}).toThrow();
   });
 });
