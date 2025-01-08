@@ -1,0 +1,30 @@
+{
+  "name": "performance-psi-tracker",
+  "version": "2.0.0",
+  "description": "A lightweight solution for tracking web page performance.",
+  "main": "PerfTracker.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/google-marketing-solutions/performance-psi-tracker.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/google-marketing-solutions/performance-psi-tracker/issues"
+  },
+  "homepage": "https://github.com/google-marketing-solutions/performance-psi-tracker#readme",
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.91"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "jasmine": "^5.5.0",
+    "typescript": "^5.6.3"
+  }
+}
