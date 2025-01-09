@@ -195,10 +195,10 @@ function initURLStatus() {
  *  - constructs the request,
  *  - sends the batch,
  *  - and then parses the results.
- * @param {string=} api - The API type to call. Supported types are PSI, CrUX, CrUX History, Green
- *    Domain, Accessibility, and Sustainability.
+ * @param {string=} api - The API type to call. Supported types are PSI API, CrUX, CrUX History,
+ *    Green Domain, Accessibility, and Sustainability (default "PSI API").
  * @param {boolean=} saveScreenshot - Flag to determine if screenshots should be saved. Applicable
- *    to only PSI API.
+ *    to only PSI API (default false).
  * @return {boolean} Indicates whether there are more URLs to process (for continuous batch
  *    processing).
  */
@@ -400,7 +400,7 @@ function extractData(data, batch, fields, api) {
       Label: request.label, // Include any label that was provided with the URL.
       URL: request.url, // The URL itself.
       Device: request.device, // The device type used for the request.
-      'URL / Origin': request.urlOrOrigin, // Indicates whether URL-level or Origin-level data was requested.
+      'URL / Origin': request.urlOrOrigin, // Whether URL- or Origin-level data was requested.
       rowID: request.id, // Index of the request
     };
 

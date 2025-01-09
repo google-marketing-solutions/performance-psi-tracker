@@ -150,13 +150,3 @@ function setCrUXDailyTrigger() {
   toast("CrUX Trigger", "Done")
 }
 
-/**
- * For test purposes, restart the spreadsheet's URL to default values
- */
-function setDefaultValues() {
-  // Logger.log(JSON.stringify(CONFIG_SHEET.getRange("E2:J14").getValues()));
-  CONFIG_SHEET.getRange("E2:J").clearContent();
-  CONFIG_SHEET.getRange("E2:J14").setValues(JSON.parse('[["Example","","","","",""],["Web.dev Domain","https://web.dev/","Mobile","Origin",true,""],["Web.dev Vitals Listing","https://web.dev/learn-web-vitals/","Mobile","URL",true,""],["Web.dev LCP info","https://web.dev/lcp/","Mobile","URL",true,""],["Web.dev FID info","https://web.dev/fid/","Desktop","URL",true,""],["Web.dev CLS info","https://web.dev/cls/","Mobile and Desktop","URL",true,""],["","","","","",""],["URLs with errors (tests)","","","","",""],["CrUX not found + LH Error","https://www.laredoute.fr/content/1-piece-3-looks--comment-adopter-la-tendance-combat-boots-/","Mobile","Origin",true,""],["Malformed URL","abc","Desktop","URL",true,""],["Missing INP in CrUX","https://www.backmarket.fr/fr-fr/l/bons-plans-galaxy-reconditionne/886af690-095c-4344-8230-2def8fb473a4","Desktop","Origin",true,""],["Google Sorry","https://www.google.com/sorry/","Desktop","Origin",true,""],["Marie Error","https://www.renefurtererusa.com/","Mobile","URL",true,""]]'));
-  SpreadsheetApp.flush();
-}
-
