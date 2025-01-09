@@ -79,7 +79,7 @@ To get a key:
 
 The first step to configure the tracker is making a copy of the sheet, which you
 can find here &#129046;
-[https://docs.google.com/spreadsheets/d/1Ip5w-d4et3I6l59qqz2RI0MKPAsG6Bf_BpVD-o7KVkc/edit#gid=0](https://docs.google.com/spreadsheets/d/1Ip5w-d4et3I6l59qqz2RI0MKPAsG6Bf_BpVD-o7KVkc/edit#gid=0)
+[https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing)
 
 To make a copy, select the **Make a copy** item from the _File_ menu. The
 related App Script file, that the copy dialog warns about, is necessary for the

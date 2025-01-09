@@ -16,9 +16,9 @@ limitations under the License.
 # Performance PSI Tracker
 
 Demo:
-https://docs.google.com/spreadsheets/d/1yEJEykmgPnz8YIKBlXZFFwlt8F7uFxAhZOEs-EBQKOE/edit?resourcekey=0-hR6O3nPoOo5y10dSLXJjrw#gid=0
+https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing
 
-[Latest: https://docs.google.com/spreadsheets/d/1RIJRfXYX0acXO0WTMjH8aQxMmdLqT1Qg5ZhNcn3hV6M/edit?usp=sharing]
+[Latest: https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing]
 
 ## Summary
 
@@ -69,8 +69,8 @@ To get a key:
 ### Setting up the Tracker
 
 Once you have your API key for PSI, make a copy of
-https://docs.google.com/spreadsheets/d/1Ip5w-d4et3I6l59qqz2RI0MKPAsG6Bf_BpVD-o7KVkc/edit#gid=0
+https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing
 and follow the instructions on the config tab.
 
-[Latest: https://docs.google.com/spreadsheets/d/1RIJRfXYX0acXO0WTMjH8aQxMmdLqT1Qg5ZhNcn3hV6M/edit?usp=sharing]
+[Latest: https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing]
 
