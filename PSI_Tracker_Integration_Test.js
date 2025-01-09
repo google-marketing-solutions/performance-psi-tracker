@@ -40,34 +40,87 @@ function runTestsPSITracker() {
  * For test purposes, reset the spreadsheet to some default values.
  */
 function setDefaultValues() {
-  CONFIG_SHEET.getRange("B5").setValue('API_KEY_GOES_HERE')
-  CONFIG_SHEET.getRange("E2:J").clearContent();
-  CONFIG_SHEET.getRange("E2:J14").setValues(JSON.parse('[["Example","","","","",""],["Web.dev Domain","https://web.dev/","Mobile","Origin",true,""],["Web.dev Vitals Listing","https://web.dev/learn-web-vitals/","Mobile","URL",true,""],["Web.dev LCP info","https://web.dev/lcp/","Mobile","URL",true,""],["Web.dev FID info","https://web.dev/fid/","Desktop","URL",true,""],["Web.dev CLS info","https://web.dev/cls/","Mobile and Desktop","URL",true,""],["","","","","",""],["URLs with errors (tests)","","","","",""],["CrUX not found + LH Error","https://www.laredoute.fr/content/1-piece-3-looks--comment-adopter-la-tendance-combat-boots-/","Mobile","Origin",true,""],["Malformed URL","abc","Desktop","URL",true,""],["Missing INP in CrUX","https://www.backmarket.fr/fr-fr/l/bons-plans-galaxy-reconditionne/886af690-095c-4344-8230-2def8fb473a4","Desktop","Origin",true,""],["Google Sorry","https://www.google.com/sorry/","Desktop","Origin",true,""],["Marie Error","https://www.renefurtererusa.com/","Mobile","URL",true,""]]'));
+  CONFIG_SHEET.getRange('B5').setValue('API_KEY_GOES_HERE');
+  CONFIG_SHEET.getRange('E2:J').clearContent();
+  CONFIG_SHEET.getRange('E2:J14').setValues(
+    JSON.parse(
+      '[["Example","","","","",""],["Web.dev Domain","https://web.dev/","Mobile","Origin",true,""],["Web.dev Vitals Listing","https://web.dev/learn-web-vitals/","Mobile","URL",true,""],["Web.dev LCP info","https://web.dev/lcp/","Mobile","URL",true,""],["Web.dev FID info","https://web.dev/fid/","Desktop","URL",true,""],["Web.dev CLS info","https://web.dev/cls/","Mobile and Desktop","URL",true,""],["","","","","",""],["URLs with errors (tests)","","","","",""],["CrUX not found + LH Error","https://www.laredoute.fr/content/1-piece-3-looks--comment-adopter-la-tendance-combat-boots-/","Mobile","Origin",true,""],["Malformed URL","abc","Desktop","URL",true,""],["Missing INP in CrUX","https://www.backmarket.fr/fr-fr/l/bons-plans-galaxy-reconditionne/886af690-095c-4344-8230-2def8fb473a4","Desktop","Origin",true,""],["Google Sorry","https://www.google.com/sorry/","Desktop","Origin",true,""],["Marie Error","https://www.renefurtererusa.com/","Mobile","URL",true,""]]',
+    ),
+  );
   SpreadsheetApp.flush();
 }
 
 function testConstantValues() {
-  console.log('Starting Constant Value tests')
+  console.log('Starting Constant Value tests');
   console.assert(COLUMN_STATUS === 9, 'COLUMN_STATUS ❌');
-  console.assert(CONFIG_SAVE_SCREENSHOT_CELL === 'C18', 'CONFIG_SAVE_SCREENSHOT_CELL ❌');
-  console.assert(CONFIG_NUMBER_URL_PER_BATCH_CELL === 'C19', 'CONFIG_NUMBER_URL_PER_BATCH_CELL ❌');
-  console.assert(CONFIG_EXECUTION_MODE_BOOLEAN === 'C20', 'CONFIG_EXECUTION_MODE_BOOLEAN ❌');
-  console.assert(CONFIG_TIME_BETWEEN_BATCHES_CELL === 'C21', 'CONFIG_TIME_BETWEEN_BATCHES_CELL ❌');
-  console.assert(CONFIG_SHEET.getRange(CONFIG_INPUT_DATA_RANGE).getValues()[0][0] === 'Example', 'CONFIG_INPUT_DATA_RANGE ❌');
-  console.assert(SCREENSHOT_SHEET.getRange('A:A').getValues()[0][0] === 'Date', 'SCREENSHOT_SHEET ❌');
-  console.assert(FIELD_SHEET.getRange('A:A').getValues()[0][0] === 'Method', 'FIELD_SHEET ❌');
-  console.assert(RESULT_SHEET.getRange('A:A').getValues()[0][0] === 'Date', 'RESULT_SHEET ❌');
-  console.assert(GREEN_DOMAIN_SHEET.getRange('A:A').getValues()[0][0] === 'Date', 'GREEN_DOMAIN_SHEET ❌');
-  console.assert(CONFIG_SHEET.getRange('E:E').getValues()[0][0] === 'Label', 'CONFIG_SHEET ❌');
-  console.assert(DEBUG_SHEET.getRange('A:A').getValues()[0][0] === 'Date', 'DEBUG_SHEET ❌');
-  console.assert(ACCESSIBILITY_SHEET.getRange('A:A').getValues()[0][0] === 'Date', 'ACCESSIBILITY_SHEET ❌');
-  console.assert(SUSTAINABILITY_SHEET.getRange('A:A').getValues()[0][0] === 'Date', 'SUSTAINABILITY_SHEET ❌');
+  console.assert(
+    CONFIG_SAVE_SCREENSHOT_CELL === 'C18',
+    'CONFIG_SAVE_SCREENSHOT_CELL ❌',
+  );
+  console.assert(
+    CONFIG_NUMBER_URL_PER_BATCH_CELL === 'C19',
+    'CONFIG_NUMBER_URL_PER_BATCH_CELL ❌',
+  );
+  console.assert(
+    CONFIG_EXECUTION_MODE_BOOLEAN === 'C20',
+    'CONFIG_EXECUTION_MODE_BOOLEAN ❌',
+  );
+  console.assert(
+    CONFIG_TIME_BETWEEN_BATCHES_CELL === 'C21',
+    'CONFIG_TIME_BETWEEN_BATCHES_CELL ❌',
+  );
+  console.assert(
+    CONFIG_SHEET.getRange(CONFIG_INPUT_DATA_RANGE).getValues()[0][0] ===
+      'Example',
+    'CONFIG_INPUT_DATA_RANGE ❌',
+  );
+  console.assert(
+    SCREENSHOT_SHEET.getRange('A:A').getValues()[0][0] === 'Date',
+    'SCREENSHOT_SHEET ❌',
+  );
+  console.assert(
+    FIELD_SHEET.getRange('A:A').getValues()[0][0] === 'Method',
+    'FIELD_SHEET ❌',
+  );
+  console.assert(
+    RESULT_SHEET.getRange('A:A').getValues()[0][0] === 'Date',
+    'RESULT_SHEET ❌',
+  );
+  console.assert(
+    GREEN_DOMAIN_SHEET.getRange('A:A').getValues()[0][0] === 'Date',
+    'GREEN_DOMAIN_SHEET ❌',
+  );
+  console.assert(
+    CONFIG_SHEET.getRange('E:E').getValues()[0][0] === 'Label',
+    'CONFIG_SHEET ❌',
+  );
+  console.assert(
+    DEBUG_SHEET.getRange('A:A').getValues()[0][0] === 'Date',
+    'DEBUG_SHEET ❌',
+  );
+  console.assert(
+    ACCESSIBILITY_SHEET.getRange('A:A').getValues()[0][0] === 'Date',
+    'ACCESSIBILITY_SHEET ❌',
+  );
+  console.assert(
+    SUSTAINABILITY_SHEET.getRange('A:A').getValues()[0][0] === 'Date',
+    'SUSTAINABILITY_SHEET ❌',
+  );
   console.assert(RESULT_SHEET_HEADER[0] === 'Date', 'RESULT_SHEET_HEADER ❌');
   console.assert(GREEN_DOMAIN_HEADER[0] === 'Date', 'GREEN_DOMAIN_HEADER ❌');
-  console.assert(ACCESSIBILITY_SHEET_HEADER[0] === 'Date', 'ACCESSIBILITY_SHEET_HEADER ❌');
-  console.assert(SUSTAINABILITY_SHEET_HEADER[0] === 'Date', 'SUSTAINABILITY_SHEET_HEADER ❌');
+  console.assert(
+    ACCESSIBILITY_SHEET_HEADER[0] === 'Date',
+    'ACCESSIBILITY_SHEET_HEADER ❌',
+  );
+  console.assert(
+    SUSTAINABILITY_SHEET_HEADER[0] === 'Date',
+    'SUSTAINABILITY_SHEET_HEADER ❌',
+  );
   console.assert(TIME_BETWEEN_BATCHES === '-', 'TIME_BETWEEN_BATCHES ❌');
-  console.assert(NUMBER_OF_URLS_PER_BATCH === 20, 'NUMBER_OF_URLS_PER_BATCH ❌');
+  console.assert(
+    NUMBER_OF_URLS_PER_BATCH === 20,
+    'NUMBER_OF_URLS_PER_BATCH ❌',
+  );
   console.log('Constant Value tests complete');
 }
 
@@ -80,8 +133,14 @@ function testinitURLStatus() {
   SpreadsheetApp.flush();
 
   initURLStatus();
-  console.assert(CONFIG_SHEET.getRange('J2').getValue() === '', 'Init URL Fail: Cell is not empty');
-  console.assert(CONFIG_SHEET.getRange('J2').getNote() === '', 'Init URL Fail: Cell is not empty');
+  console.assert(
+    CONFIG_SHEET.getRange('J2').getValue() === '',
+    'Init URL Fail: Cell is not empty',
+  );
+  console.assert(
+    CONFIG_SHEET.getRange('J2').getNote() === '',
+    'Init URL Fail: Cell is not empty',
+  );
   SpreadsheetApp.flush();
   console.log('initURLStatus tests complete');
 }
@@ -94,13 +153,24 @@ function testprepareBatchForProcessing() {
 
   const batch = prepareBatchForProcessing();
   console.assert(batch.length === 11, 'Unexpected number of URLs in batch');
-  console.assert(batch[0]['label'] === 'Web.dev Domain', 'Unexpected value for Label');
+  console.assert(
+    batch[0]['label'] === 'Web.dev Domain',
+    'Unexpected value for Label',
+  );
   console.assert(batch[0]['id'] === 1, 'Unexpected value for ID');
-  console.assert(batch[0]['url'] === 'https://web.dev/', 'Unexpected value for URL');
-  console.assert(batch[0]['device'] === 'MOBILE', 'Unexpected value for Device');
-  console.assert(batch[0]['urlOrOrigin'] === 'Origin', 'Unexpected value for Origin');
+  console.assert(
+    batch[0]['url'] === 'https://web.dev/',
+    'Unexpected value for URL',
+  );
+  console.assert(
+    batch[0]['device'] === 'MOBILE',
+    'Unexpected value for Device',
+  );
+  console.assert(
+    batch[0]['urlOrOrigin'] === 'Origin',
+    'Unexpected value for Origin',
+  );
   console.log('prepareBatchForProcessing tests complete');
-
 }
 
 function testconstructBatchUrls() {
@@ -169,31 +239,54 @@ function testconstructBatchUrls() {
     try {
       const urls = constructBatchUrls(testCase.api, testCase.batch);
       if (testCase.expectedError) {
-        console.error(`Test ${index + 1} Failed: Expected error for API: ${testCase.api}`);
+        console.error(
+          `Test ${index + 1} Failed: Expected error for API: ${testCase.api}`,
+        );
         continue;
       }
-      console.assert(urls.length === testCase.batch.length, `Test ${index + 1}: Number of URLs not matching.`);
+      console.assert(
+        urls.length === testCase.batch.length,
+        `Test ${index + 1}: Number of URLs not matching.`,
+      );
       if (testCase.expectedMethod) {
-        console.assert(urls[0].method === testCase.expectedMethod, `Test ${index + 1}: Expected Method not found in Construct.`);
+        console.assert(
+          urls[0].method === testCase.expectedMethod,
+          `Test ${index + 1}: Expected Method not found in Construct.`,
+        );
       }
       if (testCase.expectedFirstURL) {
-        console.assert(urls[0] === testCase.expectedFirstURL, `Test ${index + 1}: Expected URL not found in Construct.`);
+        console.assert(
+          urls[0] === testCase.expectedFirstURL,
+          `Test ${index + 1}: Expected URL not found in Construct.`,
+        );
       }
       if (testCase.expectedPayloadString) {
-        console.assert(urls[0].payload === testCase.expectedPayloadString, `Test ${index + 1}: Expected payload not found in Construct.`);
+        console.assert(
+          urls[0].payload === testCase.expectedPayloadString,
+          `Test ${index + 1}: Expected payload not found in Construct.`,
+        );
       }
       if (testCase.expectedURLDict) {
-        console.assert(urls[0].url === testCase.expectedURLDict, `Test ${index + 1}: Expected URL not found in Construct.`);
+        console.assert(
+          urls[0].url === testCase.expectedURLDict,
+          `Test ${index + 1}: Expected URL not found in Construct.`,
+        );
       }
     } catch (error) {
       if (testCase.expectedError) {
-        console.assert(error.message.includes(testCase.expectedError), `Test ${index + 1}: Unexpected error message. Expected: ${testCase.expectedError}. Got: ${error.message}`);
+        console.assert(
+          error.message.includes(testCase.expectedError),
+          `Test ${index + 1}: Unexpected error message. Expected: ${testCase.expectedError}. Got: ${error.message}`,
+        );
       } else {
-        console.error(`Test ${index + 1} Failed for API: ${testCase.api}:`, error);
+        console.error(
+          `Test ${index + 1} Failed for API: ${testCase.api}:`,
+          error,
+        );
       }
     }
   }
-  console.log('constructBatchUrls tests complete')
+  console.log('constructBatchUrls tests complete');
 }
 
 function testgetFieldDefinitionsForAPI() {
@@ -227,7 +320,10 @@ function testgetFieldDefinitionsForAPI() {
 
   for (const [index, testCase] of testCases.entries) {
     const fields = getFieldDefinitionsForAPI(testCase.api);
-    console.assert(fields.length === testCase.numberOfFields, `Test ${index + 1}: Number of Fields not matching.`);
+    console.assert(
+      fields.length === testCase.numberOfFields,
+      `Test ${index + 1}: Number of Fields not matching.`,
+    );
   }
   console.log('getFieldDefinitionsForAPI tests complete');
 }
@@ -269,8 +365,15 @@ function testparseResults() {
 
   for (const [index, testCase] of testCases.entries) {
     const fields = getFieldDefinitionsForAPI(testCase.api);
-    const results = extractData(testCase.dummyData, testCase.dummyInput, fields);
-    console.assert(results[testCase.valueToRead] === testCase.expectedOutput, `Test ${index + 1}: Unexpected output.`);
+    const results = extractData(
+      testCase.dummyData,
+      testCase.dummyInput,
+      fields,
+    );
+    console.assert(
+      results[testCase.valueToRead] === testCase.expectedOutput,
+      `Test ${index + 1}: Unexpected output.`,
+    );
   }
 }
 
@@ -279,63 +382,63 @@ function testparseResults() {
  */
 function getDummyData() {
   return {
-    "id": "https://web.dev/",
-    "loadingExperience": {
-      "id": "https://web.dev/",
-      "metrics": {
-        "CUMULATIVE_LAYOUT_SHIFT_SCORE": {
-          "percentile": 8,
+    'id': 'https://web.dev/',
+    'loadingExperience': {
+      'id': 'https://web.dev/',
+      'metrics': {
+        'CUMULATIVE_LAYOUT_SHIFT_SCORE': {
+          'percentile': 8,
         },
-        "EXPERIMENTAL_TIME_TO_FIRST_BYTE": {
-          "percentile": 2427
+        'EXPERIMENTAL_TIME_TO_FIRST_BYTE': {
+          'percentile': 2427,
         },
-        "FIRST_CONTENTFUL_PAINT_MS": {
-          "percentile": 4065
+        'FIRST_CONTENTFUL_PAINT_MS': {
+          'percentile': 4065,
         },
-        "FIRST_INPUT_DELAY_MS": {
-          "percentile": 150
+        'FIRST_INPUT_DELAY_MS': {
+          'percentile': 150,
         },
-        "INTERACTION_TO_NEXT_PAINT": {
-          "percentile": 405
+        'INTERACTION_TO_NEXT_PAINT': {
+          'percentile': 405,
         },
-        "LARGEST_CONTENTFUL_PAINT_MS": {
-          "percentile": 5025
-        }
+        'LARGEST_CONTENTFUL_PAINT_MS': {
+          'percentile': 5025,
+        },
       },
-      "overall_category": "SLOW",
-      "initial_url": "https://web.dev/"
+      'overall_category': 'SLOW',
+      'initial_url': 'https://web.dev/',
     },
-    "originLoadingExperience": {
-      "id": "https://web.dev",
-      "metrics": {
-        "CUMULATIVE_LAYOUT_SHIFT_SCORE": {
-          "percentile": 8
+    'originLoadingExperience': {
+      'id': 'https://web.dev',
+      'metrics': {
+        'CUMULATIVE_LAYOUT_SHIFT_SCORE': {
+          'percentile': 8,
         },
-        "EXPERIMENTAL_TIME_TO_FIRST_BYTE": {
-          "percentile": 2406
+        'EXPERIMENTAL_TIME_TO_FIRST_BYTE': {
+          'percentile': 2406,
         },
-        "FIRST_CONTENTFUL_PAINT_MS": {
-          "percentile": 3985
+        'FIRST_CONTENTFUL_PAINT_MS': {
+          'percentile': 3985,
         },
-        "FIRST_INPUT_DELAY_MS": {
-          "percentile": 141
+        'FIRST_INPUT_DELAY_MS': {
+          'percentile': 141,
         },
-        "INTERACTION_TO_NEXT_PAINT": {
-          "percentile": 411
+        'INTERACTION_TO_NEXT_PAINT': {
+          'percentile': 411,
         },
-        "LARGEST_CONTENTFUL_PAINT_MS": {
-          "percentile": 4698
-        }
+        'LARGEST_CONTENTFUL_PAINT_MS': {
+          'percentile': 4698,
+        },
       },
-      "overall_category": "SLOW",
-      "initial_url": "https://web.dev/"
+      'overall_category': 'SLOW',
+      'initial_url': 'https://web.dev/',
     },
-    "lighthouseResult": {
-      "requestedUrl": "https://web.dev/",
-      "finalUrl": "https://web.dev/",
-      "mainDocumentUrl": "https://web.dev/",
-      "finalDisplayedUrl": "https://web.dev/",
-      "lighthouseVersion": "11.0.0"
-    }
-  }
+    'lighthouseResult': {
+      'requestedUrl': 'https://web.dev/',
+      'finalUrl': 'https://web.dev/',
+      'mainDocumentUrl': 'https://web.dev/',
+      'finalDisplayedUrl': 'https://web.dev/',
+      'lighthouseVersion': '11.0.0',
+    },
+  };
 }

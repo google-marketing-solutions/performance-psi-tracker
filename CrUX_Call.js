@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-const exp = require("constants");
+const exp = require('constants');
 
 /**
  * Constructs a POST request for the Chrome User Experience Report API.

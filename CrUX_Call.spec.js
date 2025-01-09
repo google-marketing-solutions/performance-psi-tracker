@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-const { default: test } = require('node:test');
+const {default: test} = require('node:test');
 const CrUX_Call = require('./CrUX_Call');
 
 describe('CrUX_Call newCrUXRequest', () => {
@@ -31,11 +31,14 @@ describe('CrUX_Call newCrUXRequest', () => {
     muteHttpExceptions: true,
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
   };
 
   beforeEach(() => {
-    const fakeConfigSheet = jasmine.createSpyObj('Sheet', ['getRange', 'getValue']);
+    const fakeConfigSheet = jasmine.createSpyObj('Sheet', [
+      'getRange',
+      'getValue',
+    ]);
     fakeConfigSheet.getRange.and.returnValue(fakeConfigSheet);
     fakeConfigSheet.getValue.and.returnValue(apiKey);
     jasmine.getGlobal().CONFIG_SHEET = fakeConfigSheet;
@@ -43,10 +46,26 @@ describe('CrUX_Call newCrUXRequest', () => {
 
   it('returns a correct request with valid parameters', () => {
     const testData = [
-      {formFactor: 'MOBILE', mode: 'URL', wantedPayload: {url: testURL, formFactor: 'PHONE'}},
-      {formFactor: 'MOBILE', mode: 'Origin', wantedPayload: {origin: testURL, formFactor: 'PHONE'}},
-      {formFactor: 'DESKTOP', mode: 'URL', wantedPayload: {url: testURL, formFactor: 'DESKTOP'}},
-      {formFactor: 'DESKTOP', mode: 'Origin', wantedPayload: {origin: testURL, formFactor: 'DESKTOP'}}
+      {
+        formFactor: 'MOBILE',
+        mode: 'URL',
+        wantedPayload: {url: testURL, formFactor: 'PHONE'},
+      },
+      {
+        formFactor: 'MOBILE',
+        mode: 'Origin',
+        wantedPayload: {origin: testURL, formFactor: 'PHONE'},
+      },
+      {
+        formFactor: 'DESKTOP',
+        mode: 'URL',
+        wantedPayload: {url: testURL, formFactor: 'DESKTOP'},
+      },
+      {
+        formFactor: 'DESKTOP',
+        mode: 'Origin',
+        wantedPayload: {origin: testURL, formFactor: 'DESKTOP'},
+      },
     ];
 
     const want = baseRequest;
@@ -59,15 +78,21 @@ describe('CrUX_Call newCrUXRequest', () => {
   });
 
   it('throws when passed an empty URL', () => {
-    expect(() => {CrUX_Call.newCrUXRequest('', 'MOBILE', 'URL')}).toThrow();
+    expect(() => {
+      CrUX_Call.newCrUXRequest('', 'MOBILE', 'URL');
+    }).toThrow();
   });
 
   it('throws when passed an invalid device type', () => {
-    expect(() => {CrUX_Call.newCrUXRequest(testURL, 'INVALID_DEVICE', 'URL')}).toThrow();
+    expect(() => {
+      CrUX_Call.newCrUXRequest(testURL, 'INVALID_DEVICE', 'URL');
+    }).toThrow();
   });
 
   it('throws when the API key is empty', () => {
     jasmine.getGlobal().CONFIG_SHEET.getValue.and.returnValue('');
-    expect(() => {CrUX_Call.newCrUXRequest(testURL, 'MOBILE', 'URL')}).toThrow();
+    expect(() => {
+      CrUX_Call.newCrUXRequest(testURL, 'MOBILE', 'URL');
+    }).toThrow();
   });
 });

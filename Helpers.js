@@ -27,12 +27,13 @@ function showConfirmationModalCallGWF() {
   var ui = SpreadsheetApp.getUi();
   var result = ui.alert(
     'Please confirm',
-    "Carbon's usage will be done through the use of services such as the Green Web Foundation’s "
-      + "Green Web Dataset. Those calls will send queries to The Green Web Foundation's dataset of "
-      + "green domains containing the information in this spreadsheet. Check "
-      + "https://developers.thegreenwebfoundation.org/api/greencheck/v3/check-single-domain/ for "
-      + "details. Do you still want to proceed?",
-    ui.ButtonSet.YES_NO);
+    "Carbon's usage will be done through the use of services such as the Green Web Foundation’s " +
+      "Green Web Dataset. Those calls will send queries to The Green Web Foundation's dataset of " +
+      'green domains containing the information in this spreadsheet. Check ' +
+      'https://developers.thegreenwebfoundation.org/api/greencheck/v3/check-single-domain/ for ' +
+      'details. Do you still want to proceed?',
+    ui.ButtonSet.YES_NO,
+  );
 
   // Process the user's response.
   if (result == ui.Button.YES) {
@@ -52,11 +53,12 @@ function showConfirmationModalSustainability() {
   var ui = SpreadsheetApp.getUi(); // Same variations.
   var result = ui.alert(
     'Please confirm',
-    "Carbon's usage will be done through the use of services such as CO2.js. This action will run "
-      + "the different models in CO2.js taking into account the results of PSI Tracker. Please run "
-      + "Green Domains API first otherwise the model will assume that the domains are not green "
-      + "hosted. Do you want to continue?",
-    ui.ButtonSet.YES_NO);
+    "Carbon's usage will be done through the use of services such as CO2.js. This action will run " +
+      'the different models in CO2.js taking into account the results of PSI Tracker. Please run ' +
+      'Green Domains API first otherwise the model will assume that the domains are not green ' +
+      'hosted. Do you want to continue?',
+    ui.ButtonSet.YES_NO,
+  );
 
   // Process the user's response.
   if (result == ui.Button.YES) {
@@ -111,7 +113,7 @@ function toast(title, description) {
  * again to actually have it start. This allows authorization before clicking start.
  */
 function initialise() {
-  toast("Initialized", "Done")
+  toast('Initialized', 'Done');
 }
 
 /**
@@ -119,34 +121,37 @@ function initialise() {
  */
 function setDailyTrigger() {
   deleteTriggers('callPSIAPI');
-  const triggerId = PropertiesService.getDocumentProperties().getProperty('triggerId');
+  const triggerId =
+    PropertiesService.getDocumentProperties().getProperty('triggerId');
   if (!triggerId) {
     const trigger = ScriptApp.newTrigger('callPSIAPI')
       .timeBased()
       .everyDays(1)
       .create();
     PropertiesService.getDocumentProperties().setProperty(
-      'triggerId', trigger.getUniqueId());
+      'triggerId',
+      trigger.getUniqueId(),
+    );
   }
-  toast("PSI Trigger", "Done")
+  toast('PSI Trigger', 'Done');
 }
-
-
 
 /**
  * Sets the trigger to run the CrUX API every day.
  */
 function setCrUXDailyTrigger() {
   deleteTriggers('callCrUX');
-  const triggerId = PropertiesService.getDocumentProperties().getProperty('triggerId');
+  const triggerId =
+    PropertiesService.getDocumentProperties().getProperty('triggerId');
   if (!triggerId) {
     const trigger = ScriptApp.newTrigger('callCrUX')
       .timeBased()
       .everyDays(1)
       .create();
     PropertiesService.getDocumentProperties().setProperty(
-      'triggerId', trigger.getUniqueId());
+      'triggerId',
+      trigger.getUniqueId(),
+    );
   }
-  toast("CrUX Trigger", "Done")
+  toast('CrUX Trigger', 'Done');
 }
-

@@ -310,24 +310,24 @@ function constructBatchUrls(api, batch) {
   let urls = [];
   switch (api) {
     case 'PSI API': // PageSpeed Insights
-      urls = batch.map(d => newPSIRequest(d.url, d.device));
+      urls = batch.map((d) => newPSIRequest(d.url, d.device));
       break;
     case 'CrUX': // Chrome User Experience
-      urls = batch.map(d => newCrUXRequest(d.url, d.device, d.urlOrOrigin));
+      urls = batch.map((d) => newCrUXRequest(d.url, d.device, d.urlOrOrigin));
       break;
     case 'CrUX History': // Chrome User Experience History
-      urls = batch.map(d =>
+      urls = batch.map((d) =>
         newCrUXHistoryRequest(d.url, d.device, d.urlOrOrigin),
       );
       break;
     case 'Green Domain': // Green Web Foundation's Green Domain
-      urls = batch.map(d => newGWFRequest(d.url));
+      urls = batch.map((d) => newGWFRequest(d.url));
       break;
     case 'Accessibility': // Accessibility
-      urls = batch.map(d => newPSIRequest(d.url, 'MOBILE'));
+      urls = batch.map((d) => newPSIRequest(d.url, 'MOBILE'));
       break;
     case 'Sustainability': // Sustainability
-      urls = batch.map(d => newPSIRequest(d.url, 'MOBILE'));
+      urls = batch.map((d) => newPSIRequest(d.url, 'MOBILE'));
       break;
   }
 
@@ -404,15 +404,15 @@ function extractData(data, batch, fields, api) {
       rowID: request.id, // Index of the request
     };
 
-    fields.forEach(field => {
+    fields.forEach((field) => {
       try {
         // The green_domains variable is available to the user-defined expressions.
         let green_domains = [];
         if (api === 'Sustainability') {
           greenDomains = GREEN_DOMAIN_SHEET.getRange('F2:J')
             .getValues()
-            .filter(d => d[4] == true)
-            .map(d => d[0]);
+            .filter((d) => d[4] == true)
+            .map((d) => d[0]);
         }
         // The response is referred to as 'content' in the user-defined expressions.
         const content = response;
@@ -472,8 +472,8 @@ function getFieldDefinitionsForAPI(api) {
   const values = range.getValues();
 
   return values
-    .filter(row => row[0] === api)
-    .map(row => ({
+    .filter((row) => row[0] === api)
+    .map((row) => ({
       method: row[0],
       name: row[1],
       expression: row[2],
@@ -591,7 +591,7 @@ function saveScreenshotData(parsedData, batch) {
     try {
       const thumbnails = content.lighthouseResult.audits[
         'screenshot-thumbnails'
-      ].details.items.map(d => d.data.toString());
+      ].details.items.map((d) => d.data.toString());
       screenshotRow = screenshotRow.concat(thumbnails);
     } catch (error) {
       screenshotRow.push('');

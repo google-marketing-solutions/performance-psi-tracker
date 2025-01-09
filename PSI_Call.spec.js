@@ -22,10 +22,14 @@ const PSI_Call = require('./PSI_Call');
 describe('PSI_Call newPSIRequest', () => {
   const apiKey = 'fakeapikey';
   const psiURL = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
-  const fixedParams = '&category=ACCESSIBILITY&category=BEST_PRACTICES&category=PERFORMANCE&category=PWA&category=SEO'
+  const fixedParams =
+    '&category=ACCESSIBILITY&category=BEST_PRACTICES&category=PERFORMANCE&category=PWA&category=SEO';
 
   beforeEach(() => {
-    const fakeConfigSheet = jasmine.createSpyObj('Sheet', ['getRange', 'getValue']);
+    const fakeConfigSheet = jasmine.createSpyObj('Sheet', [
+      'getRange',
+      'getValue',
+    ]);
     fakeConfigSheet.getRange.and.returnValue(fakeConfigSheet);
     fakeConfigSheet.getValue.and.returnValue(apiKey);
     jasmine.getGlobal().CONFIG_SHEET = fakeConfigSheet;
@@ -60,15 +64,21 @@ describe('PSI_Call newPSIRequest', () => {
   });
 
   it('throws an error with an empty URL', () => {
-    expect(() => {PSI_Call.newPSIRequest('', 'MOBILE')}).toThrow();
+    expect(() => {
+      PSI_Call.newPSIRequest('', 'MOBILE');
+    }).toThrow();
   });
 
   it('throws an error with an invalid device type', () => {
-    expect(() => {PSI_Call.newPSIRequest('https://example.com', 'NOT_VALID')}).toThrow();
+    expect(() => {
+      PSI_Call.newPSIRequest('https://example.com', 'NOT_VALID');
+    }).toThrow();
   });
 
   it('throws an error when the API key is empty', () => {
     jasmine.getGlobal().CONFIG_SHEET.getValue.and.returnValue('');
-    expect(() => {PSI_Call.newPSIRequest('https://example.com', 'MOBILE')}).toThrow();
+    expect(() => {
+      PSI_Call.newPSIRequest('https://example.com', 'MOBILE');
+    }).toThrow();
   });
 });

@@ -48,7 +48,9 @@ function newCrUXHistoryRequest(url, deviceType, mode) {
 
   const apiKey = CONFIG_SHEET.getRange('B5').getValue();
   if (typeof apiKey !== 'string' || apiKey.trim() === '') {
-    throw new Error('Missing or invalid API Key: Ensure your API key is in cell B5.');
+    throw new Error(
+      'Missing or invalid API Key: Ensure your API key is in cell B5.',
+    );
   }
 
   const payload = {};

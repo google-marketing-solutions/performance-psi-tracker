@@ -65,14 +65,14 @@ describe('GWF_Call newGWFRequest', () => {
   });
 
   it('throws an error when passed an invalid domain', () => {
-    const testCases = [
-      '',
-      'example.com:8080',
-      'https@user:pass://example.com'
-    ];
+    const testCases = ['', 'example.com:8080', 'https@user:pass://example.com'];
 
     for (const t of testCases) {
-      expect(() => {GWF_Call.newGWFRequest(t)}).withContext(t).toThrow();
+      expect(() => {
+        GWF_Call.newGWFRequest(t);
+      })
+        .withContext(t)
+        .toThrow();
     }
   });
 });
