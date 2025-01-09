@@ -1,4 +1,4 @@
-Copyright 2023 Google LLC
+Copyright 2025 Google LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -72,8 +72,8 @@ To get a key:
 
 > [!IMPORTANT]
 > The API key you created can be used for _any_ Google API. It is suggested
-> that you restrict the key to specific APIs (namely, Pagespeed Insights)
-> for better security.
+> that you restrict the key to specific APIs (namely, Pagespeed Insights and
+> CrUX) for better security.
 
 ### Configuring the Tracker
 
@@ -88,8 +88,8 @@ solution to work.
 The steps to configure the tracker are outlined on the _Config_ tab of the
 Sheet. More detailed instructions follow:
 
-1. Paste the API key you created before starting into cell B6, below the label
-   _API Key for PSI+CrUX (necessary for CrUX and for automated PSI)_.
+1. Paste the API key you created before starting into cell B5, below the label
+   _API Key for PSI+CrUX_.
 
    <img src="./imgs/config_step_1.webp" alt="Screenshot of the cell in the tracker for the PSI API key with a red arrow pointing at it." width="25%">
 
@@ -156,15 +156,6 @@ to see how your site is performing. Please see the [Google Sheets documentation
 on conditional
 formatting](https://support.google.com/docs/answer/78413?hl=en&co=GENIE.Platform%3DDesktop&oco=0)
 for more information.
-
-> [!WARNING] 
-> There are two buttons at the bottom of the Config worksheet that
-> can be destructive to any changes you've made to the Tracker.
->
-> **Reset** will replace all of the URLs entered in the Config worksheet with a
-> standard set of URLs from web.dev.
->
-> **Delete** will delete all of the data in the Results worksheet.
 
 ## Visualizing Your Metrics
 
@@ -243,9 +234,9 @@ relationship between site performance and business metrics. How you add this
 data will depend on how you measure business metrics. 
 
 The easiest method is to import the data into a new worksheet in the Performance
-PSI Tracker spreadsheet, for example with the [GA Spreadsheet
-Add-in](https://ga-dev-tools.google/spreadsheet-add-on/), and then use
-[VLOOKUP](https://support.google.com/docs/answer/3093318) or the
+PSI Tracker spreadsheet, for example with the [GA4 Reports Builder for Google
+Analytics Add-on](https://workspace.google.com/marketplace/app/ga4_reports_builder_for_google_analytics/589269949355/),
+and then use [VLOOKUP](https://support.google.com/docs/answer/3093318) or the
 [QUERY](https://support.google.com/docs/answer/3093343) function to join the
 performance and business data in sheets. You can then add the worksheet with the
 joined data to the dashboard as a data source (see the
@@ -261,15 +252,27 @@ blends](https://support.google.com/looker-studio/answer/9061420) for more info.
 
 ### Limiting API Calls to Avoid Quota Errors
 
-The Pagespeed Insights (PSI) API has a default quota of 25k queries per day and 240 queries per minute. For most project this is more than enough. However, for PSI Tracker projects with many URLs, or when the API key is shared among a number of trackers, you may receive over quota errors instead of results. Large numbers of URLs being tracked can also lead to the App Script engine timing out. To avoid these issues, the Config worksheet has three fields you can use to limit how you use the PSI API.
+The Pagespeed Insights (PSI) API has a default quota of 25k queries per day and
+240 queries per minute. For most project this is more than enough. However, for
+PSI Tracker projects with many URLs, or when the API key is shared among a
+number of trackers, you may receive over quota errors instead of results. Large
+numbers of URLs being tracked can also lead to the App Script engine timing
+out. To avoid these issues, the Config worksheet has three fields you can use
+to limit how you use the PSI API.
 
-* **Number of URLs per batch** allows you to limit the number of API calls made at one time to avoid going over the queries per minute quota.
-* **Avoid maxiumum execution time, run batches on triggers** sets a timer between test batches to ensure the App Script engine does not run to the maxium time for a single job.
-* **If TRUE, time in minute between batches** the time between batches being started, if the above parameter is set to true.
+* **Number of URLs per batch** allows you to limit the number of API calls made
+    at one time to avoid going over the queries per minute quota.
+* **Run batches of URLs on triggers** sets a timer between test batches to
+   ensure the App Script engine does not run to the maximum time for a single
+   job.
+* **Time between batches** the time in minutes between batches being started, if
+   the above parameter is set to true.
 
 ### Adding Custom Results Fields
 
-The Fields worksheet is used to configure the columns present in the Results worksheet. There are three columns with the following meanings:
+The Fields worksheet (hidden by default) is used to configure the columns
+present in the Results worksheet. There are three columns with the following
+meanings:
 
 * **Method** Is used to specify which method, or API, is being used to fetch the data. The acceptable values are:
   + _PSI API_ - used with data from the [Pagespeed Insights API](https://developers.google.com/speed/docs/insights/v5/get-started)
