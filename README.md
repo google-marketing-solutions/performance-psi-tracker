@@ -1,4 +1,4 @@
-Copyright 2022 Google LLC
+Copyright 2025 Google LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,43 +15,62 @@ limitations under the License.
  
 # Performance PSI Tracker
 
-## Problem
+Demo:
+https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing
 
-Many people require a lightweight solution for tracking their page performance.
-They also do not want to have to pay for anything to get started.
+[Latest: https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing]
 
-## Solution
+## Summary
 
-Performance PSI Tracker is a simple, straightforward solution for simple
-pagespeed tracking. It uses a Google Sheets with App Script and a Data Studio
-Dashboard template to allow users to enter the URLs to track and visualise
-the results.
+A simple solution for measuring and reporting on website performance based on 
+[Pagespeed Insights](https://developers.google.com/speed/docs/insights/v5/about)
+(PSI).
 
-## Deploying
+## Why?
 
-The code files need to be copied into an AppScript project attached to a Google
-Sheet.
+Tracking web performance changes and improvement can be hard for advertisers
+whose teams have heterogeneous needs and objectives. Making the business case
+to license a third-party tool can be daunting and setting up many of the
+open-source solutions is beyond a marketing or CRO team's comfort zone, and out
+of the remit of most development teams.
 
-You will also need a Pagespeed Insights API key to use the solution. You can get one on the [Pagespeed Insights documentation site](https://developers.google.com/speed/docs/insights/v5/get-started).
+## What?
 
-## Examples 
-Example Dashboard:
-https://datastudio.google.com/reporting/3491d840-6456-41a2-a912-ba35c6b44a53/preview
+A free, straightforward solution to track real user metrics from the [Chrome
+User Experience Report](https://developer.chrome.com/docs/crux/) (CrUX) and
+synthetic data from [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/)
+using only Google Sheets to fetch data and store the results. No code required.
 
-[Update February 2023 - Beta] Revamped Dashboard: https://lookerstudio.google.com/u/0/reporting/fbc4c1df-3766-417a-8ed3-1a10186e08fa/page/jQ9DD/preview
+## Get Started
 
-Example Spreadsheet:
-https://docs.google.com/spreadsheets/d/1i_5fiSpbkU3CG9h4MwGzSxchh3Ji6s8Mj0uDQykRoWM/copy
+### Getting a Pagespeed Insights API Key
 
-Presentation on how to set everything up:
-https://docs.google.com/presentation/d/1RMd1q1qyW02Ac0DcSk4VvVfiW6OY3O6a3U8_ESUgSio/edit?usp=sharing
+A prerequisite of using this solution is having an API key for Pagespeed
+Insights. Pagespeed Insights is used to get both the CrUX and Lighthouse data
+the solution is based on. Although it will work a few times without an API key,
+you will quickly see errors instead of performance data without one.
 
+To get a key:
 
-## Main Functions (for testing):
+1.  In your browser, open
+[https://developers.google.com/speed/docs/insights/v5/get-started](https://developers.google.com/speed/docs/insights/v5/get-started). 
+2.  Under **[Acquiring and using an API key](https://developers.google.com/speed/docs/insights/v5/get-started#APIKey)**,
+  click the blue button labeled _Get a Key_. 
+3.  In the dialog that opens, either select an existing Google Cloud project or 
+  create a new one dedicated to the tracker. 
+4.  Agree to the Terms and Conditions, and then click **NEXT** to create the API
+  key. 
+5.  Once the key is created, click the **SHOW KEY** button to reveal your API
+  key. 
+6.  Use the copy icon to copy your API key to the clip board. You can also find
+  the key in the [_APIs & Services_ section](https://console.cloud.google.com/apis/credentials)
+  of the Google Cloud Console for the project you chose.
 
-File            | Function
---------------- | ---------------------------------------------------------
-helper.gs       | cloneSiteSheet (required when running a whole new report)
-helper.gs       | runBatchFromQueue (generating a report)
-sendAlerts.gs   | checkBudgets (independently check budgets)
-sendAlerts.gs   | alertUsers (independently send out emails)
+### Setting up the Tracker
+
+Once you have your API key for PSI, make a copy of
+https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing
+and follow the instructions on the config tab.
+
+[Latest: https://docs.google.com/spreadsheets/d/1K3TNRst-8Gi92nws4bybWU6VKpMyNRQ76GROnGPCeOU/edit?usp=sharing]
+
